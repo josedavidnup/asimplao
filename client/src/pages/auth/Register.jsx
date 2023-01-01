@@ -1,13 +1,17 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Button, Form, Input } from 'antd';
 import { sendSignInLinkToEmail } from 'firebase/auth';
 import { auth } from '../../config/firebase';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import '../../assets/styles/register.css';
+import { useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+// import '../../assets/styles/register.css';
 
 const Register = () => {
   const [email, setEmail] = useState('');
+  const { user } = useSelector((state) => ({ ...state }));
+  const navigate = useNavigate();
   const onFinish = async () => {
     const actionCodeSettings = {
       url: `${import.meta.env.VITE_BASE_URL}/register/complete`,
@@ -24,9 +28,13 @@ const Register = () => {
     console.log('Failed:', errorInfo);
     toast.error(`Something went wrong. Try again!`);
   };
+
+  useEffect(() => {
+    if (user && user.token) navigate('/');
+  }, [user]);
   return (
     <main className='register'>
-      <h1>Sign Up</h1>
+      <h1>Sign up</h1>
       <Form
         name='form-registration'
         onFinish={onFinish}
@@ -51,6 +59,7 @@ const Register = () => {
             name='email'
             value={email}
             autoFocus
+            placeholder='Type your email Account'
             onChange={(e) => setEmail(e.target.value)}
           />
         </Form.Item>

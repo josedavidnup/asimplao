@@ -1,63 +1,101 @@
 import React, { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { signOut } from 'firebase/auth';
+import { Link, useNavigate } from 'react-router-dom';
+import { LOGGED_OUT_USER } from '../../Redux/actions/actionTypes';
+import { auth } from '../../config/firebase';
 import { Menu } from 'antd';
-import {
-  HomeOutlined,
-  UserOutlined,
-  UserAddOutlined,
-  SettingOutlined,
-} from '@ant-design/icons';
-import { Link } from 'react-router-dom';
-import firebase from 'firebase/compat/app';
-import '../../assets/styles/header.css';
-// const items = ;
+import { VscAccount } from 'react-icons/vsc';
+import { FiShoppingCart } from 'react-icons/fi';
+import { AiOutlineHome, AiOutlineUserAdd } from 'react-icons/ai';
+import { MdLogout, MdLogin, MdOutlineFavorite } from 'react-icons/md';
+// import '../../assets/styles/header.css';
 
 const Header = () => {
-  const [current, setCurrent] = useState('');
+  const { user } = useSelector((state) => ({ ...state }));
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
 
-  const handleClick = (e) => {
-    // console.log('click ', e);
-    setCurrent(e.key);
+  const signout = () => {
+    signOut(auth);
+    dispatch({
+      type: LOGGED_OUT_USER,
+      payload: null,
+    });
+    navigate('/login');
   };
+
+  const account = [
+    {
+      key: 'whishlist',
+      icon: <MdOutlineFavorite />,
+    },
+    {
+      label: (
+        <Link to={`/account`}>
+          {user?.name && `Hi, ${user.name.split(' ')[0]}`}
+        </Link>
+      ),
+      key: 'SubMenu',
+      icon: <VscAccount />,
+      children: [
+        {
+          label: 'Log out',
+          icon: <MdLogout />,
+          onClick: signout,
+          danger: true,
+        },
+      ],
+    },
+
+    {
+      label: <Link to={`/`}>Cart</Link>,
+      key: 'cart',
+      icon: <FiShoppingCart />,
+    },
+  ];
+  const logOut = [
+    {
+      label: <Link to={`/`}>Home</Link>,
+      key: 'home',
+      icon: <AiOutlineHome />,
+    },
+    {
+      key: 'wishlist',
+      icon: <MdOutlineFavorite />,
+    },
+    {
+      label: <Link to={`/account`}>Account</Link>,
+      key: 'SubMenu',
+      icon: <VscAccount />,
+      children: [
+        {
+          label: <Link to={`/login`}>Login</Link>,
+          key: 'login',
+          icon: <MdLogin />,
+        },
+        {
+          label: <Link to={`/register`}>Sign Up</Link>,
+          key: 'register',
+          icon: <AiOutlineUserAdd />,
+        },
+      ],
+    },
+
+    {
+      label: <Link to={`/`}>Cart</Link>,
+      key: 'cart',
+      icon: <FiShoppingCart />,
+    },
+  ];
 
   return (
     <>
       <Menu
         className='header'
-        onClick={handleClick}
-        selectedKeys={[current]}
         mode='horizontal'
-        items={[
-          {
-            label: <Link to={`/`}>Home</Link>,
-            key: 'home',
-            icon: <HomeOutlined />,
-          },
-          {
-            label: <Link to={`/account`}>Account</Link>,
-            key: 'SubMenu',
-            icon: <SettingOutlined />,
-            children: [
-              {
-                label: 'Option 1',
-                key: 'setting:1',
-              },
-              {
-                label: 'Option 2',
-                key: 'setting:2',
-              },
-            ],
-          },
-          {
-            label: <Link to={`/register`}>Register</Link>,
-            key: 'register',
-            icon: <UserAddOutlined />,
-          },
-          {
-            label: <Link to={`/login`}>Login</Link>,
-            key: 'login',
-            icon: <UserOutlined />,
-          },
-        ]}
+        defaultSelectedKeys={[window.location.pathname]}
+        items={!user ? logOut : account}
       />
     </>
   );

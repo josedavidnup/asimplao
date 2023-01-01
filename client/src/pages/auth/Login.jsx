@@ -1,9 +1,159 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { auth } from '../../config/firebase';
+import {
+  signInWithEmailAndPassword,
+  signInWithPopup,
+  GoogleAuthProvider,
+} from 'firebase/auth';
+import { useDispatch, useSelector } from 'react-redux';
+import {
+  LockOutlined,
+  UserOutlined,
+  MailOutlined,
+  GoogleOutlined,
+} from '@ant-design/icons';
+import { Button, Form, Input } from 'antd';
+import { Typography } from 'antd';
+const { Title } = Typography;
+import { ToastContainer, toast } from 'react-toastify';
+import { LOGGED_IN_USER } from '../../Redux/actions/actionTypes';
+
 const Login = () => {
+  const [form, setForm] = useState({
+    email: '',
+    password: '',
+  });
+  const { user } = useSelector((state) => ({ ...state }));
+  const provider = new GoogleAuthProvider();
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const handleOnChange = (e) => {
+    setForm((prevState) => {
+      return {
+        ...prevState,
+        [e.target.name]: e.target.value,
+      };
+    });
+  };
+  const onFinish = async () => {
+    try {
+      const result = await signInWithEmailAndPassword(
+        auth,
+        form.email,
+        form.password
+      );
+      const { user } = result;
+      const idTokenResult = await user.getIdTokenResult();
+      dispatch({
+        type: LOGGED_IN_USER,
+        payload: {
+          name: user.displayName,
+          email: user.email,
+          token: idTokenResult.token,
+        },
+      });
+      navigate('/');
+    } catch (error) {
+      console.log(error);
+      toast.error(error.message);
+    }
+  };
+
+  const googleLogin = async () => {
+    try {
+      const result = await signInWithPopup(auth, provider);
+      const { user } = result;
+      const idTokenResult = await user.getIdTokenResult();
+      dispatch({
+        type: LOGGED_IN_USER,
+        payload: {
+          name: user.displayName,
+          email: user.email,
+          token: idTokenResult.token,
+        },
+      });
+      navigate('/');
+    } catch (error) {
+      console.log(error);
+      toast.error(error.message);
+    }
+  };
+
+  useEffect(() => {
+    if (user && user.token) navigate('/');
+  }, [user]);
+
   return (
-    <div>
-      <p>Login</p>
-    </div>
+    <main>
+      <Title>Sign in</Title>
+      <Form name='form-complete-registration'>
+        <Form.Item
+          name='email'
+          rules={[
+            {
+              required: true,
+              message: 'Please type your Email',
+            },
+          ]}
+        >
+          <Input
+            name='email'
+            prefix={<UserOutlined className='site-form-item-icon' />}
+            value={form.email}
+            placeholder='Type your Email'
+            onChange={handleOnChange}
+            autoFocus
+          />
+        </Form.Item>
+        <Form.Item
+          name='password'
+          rules={[
+            {
+              required: true,
+              message: 'Please input your Password!',
+            },
+          ]}
+        >
+          <Input
+            name='password'
+            type='password'
+            prefix={<LockOutlined className='site-form-item-icon' />}
+            value={form.password}
+            placeholder='Type your Password'
+            onChange={handleOnChange}
+          />
+        </Form.Item>
+        <Form.Item>
+          Forgot password?
+          <Link to={'/forgot/password'}> Reset it</Link>
+        </Form.Item>
+
+        <Form.Item>
+          <Button
+            type='primary'
+            htmlType='submit'
+            onClick={onFinish}
+            icon={<MailOutlined />}
+            disabled={!form.email || form.password.length < 6}
+          >
+            Sign in
+          </Button>
+        </Form.Item>
+        <Form.Item>
+          <Button
+            type='primary'
+            danger
+            htmlType='submit'
+            onClick={googleLogin}
+            icon={<GoogleOutlined />}
+          >
+            Sign in with Google
+          </Button>
+        </Form.Item>
+      </Form>
+      <ToastContainer />
+    </main>
   );
 };
 
