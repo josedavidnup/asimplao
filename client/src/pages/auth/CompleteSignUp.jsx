@@ -1,41 +1,30 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { auth } from '../../config/firebase';
-import {
-  signInWithEmailLink,
-  updatePassword,
-  updateProfile,
-} from 'firebase/auth';
-import { LockOutlined } from '@ant-design/icons';
-import { CiMail } from 'react-icons/ci';
+import { signInWithEmailLink, updatePassword } from 'firebase/auth';
+import { createOrUpdateUser } from '../../functions/auth';
+import { useDispatch } from 'react-redux';
 import { BsPerson } from 'react-icons/bs';
+import { CiLock } from 'react-icons/ci';
 import { Button, Form, Input } from 'antd';
 import { ToastContainer, toast } from 'react-toastify';
+import { LOGGED_IN_USER } from '../../Redux/actions/actionTypes';
 
 const CompleteSignUp = () => {
   const [form] = Form.useForm();
   const [email, setEmail] = useState('');
-  const [infoUser, setInfoUser] = useState({
-    name: '',
-    password: '',
-  });
+  const [password, setPassword] = useState('');
+
+  // const { user } = useSelector((state) => ({ ...state }));
+  const dispatch = useDispatch();
   const navigate = useNavigate();
-  const handleOnChange = (e) => {
-    setInfoUser((prev) => {
-      return {
-        ...prev,
-        [e.target.name]: e.target.value,
-      };
-    });
-    console.log(email, infoUser);
-  };
   const onFinish = async () => {
-    if (!infoUser.name || !email || !infoUser.password) {
-      toast.error('Email, Full Name and Password is required');
+    if (!email || !password) {
+      toast.error('Email and Password are required');
       return;
     }
 
-    if (infoUser.password.length < 6) {
+    if (password.length < 6) {
       toast.error('Password must be at least 6 characters');
       return;
     }
@@ -50,17 +39,29 @@ const CompleteSignUp = () => {
       if (result.user.emailVerified) {
         window.localStorage.removeItem('emailForRegistration');
         let user = auth.currentUser;
-        await updatePassword(user, infoUser.password);
-        await updateProfile(user, {
-          displayName: infoUser.name,
-        });
+        await updatePassword(user, password);
         const idTokenResult = await user.getIdTokenResult();
 
         console.log('user', user, 'Id', idTokenResult);
-        toast.success('Signup Completed. Redirecting to Home...');
-        setTimeout(() => {
-          return navigate('/');
-        }, 2000);
+
+        try {
+          const res = await createOrUpdateUser(idTokenResult.token);
+          console.log(res);
+          dispatch({
+            type: LOGGED_IN_USER,
+            payload: {
+              name: res.data.name,
+              email: res.data.email,
+              role: res.data.role,
+              _id: res.data._id,
+              token: idTokenResult.token,
+            },
+          });
+        } catch (error) {
+          console.log(error);
+          toast.error(error.message);
+        }
+        return navigate('/');
       }
     } catch (error) {
       console.log(error);
@@ -78,27 +79,18 @@ const CompleteSignUp = () => {
     if (emailStorage) {
       setEmail(emailStorage);
     }
-  }, []);
+  }, [navigate]);
 
   return (
     <main>
       <h1>Complete Registration</h1>
       <Form form={form} name='form-complete-registration' onFinish={onFinish}>
         <Form.Item name='email' rules={[{ required: true }]}>
-          <Input name='email' prefix={<CiMail />} value={form.email} disabled />
-        </Form.Item>
-        <Form.Item
-          name='name'
-          rules={[{ required: true, message: 'Please type your Name' }]}
-        >
           <Input
-            name='name'
-            type='text'
-            placeholder='Full Name'
+            name='email'
             prefix={<BsPerson />}
-            value={infoUser.name}
-            autoFocus
-            onChange={handleOnChange}
+            value={form.email}
+            disabled
           />
         </Form.Item>
         <Form.Item
@@ -112,11 +104,11 @@ const CompleteSignUp = () => {
         >
           <Input
             name='password'
-            prefix={<LockOutlined className='site-form-item-icon' />}
+            prefix={<CiLock className='site-form-item-icon' />}
             type='password'
             placeholder='Password'
-            value={infoUser.password}
-            onChange={handleOnChange}
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
           />
         </Form.Item>
 

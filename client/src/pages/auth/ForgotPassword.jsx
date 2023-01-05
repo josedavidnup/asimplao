@@ -29,7 +29,7 @@ const ForgotPassword = () => {
 
   useEffect(() => {
     if (user && user.token) navigate('/');
-  }, [user]);
+  }, [user, navigate]);
 
   return (
     <main>

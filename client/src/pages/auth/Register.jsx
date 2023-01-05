@@ -31,7 +31,7 @@ const Register = () => {
 
   useEffect(() => {
     if (user && user.token) navigate('/');
-  }, [user]);
+  }, [user, navigate]);
   return (
     <main className='register'>
       <h1>Sign up</h1>

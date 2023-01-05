@@ -6,6 +6,7 @@ import {
   signInWithPopup,
   GoogleAuthProvider,
 } from 'firebase/auth';
+import { createOrUpdateUser } from '../../functions/auth';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   LockOutlined,
@@ -16,7 +17,7 @@ import {
 import { Button, Form, Input } from 'antd';
 import { Typography } from 'antd';
 const { Title } = Typography;
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 import { LOGGED_IN_USER } from '../../Redux/actions/actionTypes';
 
 const Login = () => {
@@ -36,6 +37,19 @@ const Login = () => {
       };
     });
   };
+
+  const roleBasedRedirect = (res) => {
+    if (res.data.role === 'admin') {
+      navigate('/admin/dashboard');
+    } else {
+      navigate('/user/history');
+    }
+  };
+
+  useEffect(() => {
+    if (user && user?.token) navigate('/');
+  }, [user]);
+
   const onFinish = async () => {
     try {
       const result = await signInWithEmailAndPassword(
@@ -45,17 +59,28 @@ const Login = () => {
       );
       const { user } = result;
       const idTokenResult = await user.getIdTokenResult();
-      dispatch({
-        type: LOGGED_IN_USER,
-        payload: {
-          name: user.displayName,
-          email: user.email,
-          token: idTokenResult.token,
-        },
-      });
-      navigate('/');
+      try {
+        const res = await createOrUpdateUser(idTokenResult.token);
+        console.log(res);
+        dispatch({
+          type: LOGGED_IN_USER,
+          payload: {
+            name: res.data.name,
+            token: idTokenResult.token,
+            email: res.data.email,
+            role: res.data.role,
+            _id: res.data._id,
+          },
+        });
+        roleBasedRedirect(res);
+      } catch (error) {
+        console.log(error);
+        toast.error(error.message);
+      }
+
+      // navigate('/');
     } catch (error) {
-      console.log(error);
+      console.log(error.message);
       toast.error(error.message);
     }
   };
@@ -65,24 +90,30 @@ const Login = () => {
       const result = await signInWithPopup(auth, provider);
       const { user } = result;
       const idTokenResult = await user.getIdTokenResult();
-      dispatch({
-        type: LOGGED_IN_USER,
-        payload: {
-          name: user.displayName,
-          email: user.email,
-          token: idTokenResult.token,
-        },
-      });
-      navigate('/');
+      try {
+        const res = await createOrUpdateUser(idTokenResult.token);
+        console.log(res);
+        dispatch({
+          type: LOGGED_IN_USER,
+          payload: {
+            name: res.data.name,
+            email: res.data.email,
+            role: res.data.role,
+            _id: res.data._id,
+            token: idTokenResult.token,
+          },
+        });
+        roleBasedRedirect(res);
+      } catch (error) {
+        console.log(error);
+        toast.error(error.message);
+      }
+      // navigate('/');
     } catch (error) {
       console.log(error);
       toast.error(error.message);
     }
   };
-
-  useEffect(() => {
-    if (user && user.token) navigate('/');
-  }, [user]);
 
   return (
     <main>
@@ -152,7 +183,6 @@ const Login = () => {
           </Button>
         </Form.Item>
       </Form>
-      <ToastContainer />
     </main>
   );
 };

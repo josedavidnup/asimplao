@@ -7,8 +7,17 @@ import { auth } from '../../config/firebase';
 import { Menu } from 'antd';
 import { VscAccount } from 'react-icons/vsc';
 import { FiShoppingCart } from 'react-icons/fi';
-import { AiOutlineHome, AiOutlineUserAdd } from 'react-icons/ai';
-import { MdLogout, MdLogin, MdOutlineFavorite } from 'react-icons/md';
+import {
+  AiOutlineHome,
+  AiOutlineUserAdd,
+  AiOutlineOrderedList,
+} from 'react-icons/ai';
+import {
+  MdLogout,
+  MdLogin,
+  MdOutlineFavorite,
+  MdResetTv,
+} from 'react-icons/md';
 // import '../../assets/styles/header.css';
 
 const Header = () => {
@@ -27,18 +36,39 @@ const Header = () => {
 
   const account = [
     {
+      label: <Link to={`/`}>Home</Link>,
+      key: 'home',
+      icon: <AiOutlineHome />,
+    },
+    {
       key: 'whishlist',
       icon: <MdOutlineFavorite />,
     },
     {
       label: (
         <Link to={`/account`}>
-          {user?.name && `Hi, ${user.name.split(' ')[0]}`}
+          {/* {user?.name && `Hi, ${user.name.split(' ')[0]}`} */}
+          {user?.email && `Hi, ${user.email.split('@')[0]}`}
         </Link>
       ),
       key: 'SubMenu',
       icon: <VscAccount />,
       children: [
+        {
+          label: <Link to={`/user/password`}>Password</Link>,
+          key: 'password',
+          icon: <MdResetTv />,
+        },
+        {
+          label: <Link to={`/user/history`}>History</Link>,
+          key: 'history',
+          icon: <AiOutlineOrderedList />,
+        },
+        {
+          label: <Link to={`/user/wishlist`}>Wishlist</Link>,
+          key: 'wishlist',
+          icon: <MdOutlineFavorite />,
+        },
         {
           label: 'Log out',
           icon: <MdLogout />,
