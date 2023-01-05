@@ -7,6 +7,7 @@ const { createOrUpdateUser, currenUser } = require('../controllers/auth');
 // middlewares
 const { authCheck, adminCheck } = require('../middlewares/auth');
 
+//routes
 router.post('/create-or-update-user', authCheck, createOrUpdateUser);
 
 router.post('/current-user', authCheck, currenUser);
