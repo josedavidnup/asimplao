@@ -60,6 +60,16 @@ const Header = () => {
       icon: <VscAccount />,
       children: [
         {
+          label:
+            user && user.role === 'admin' ? (
+              <Link to={`/admin/account`}>Admin Account</Link>
+            ) : (
+              <Link to={`/user/account`}>Account</Link>
+            ),
+          key: 'account',
+          icon: <MdResetTv />,
+        },
+        {
           label: <Link to={`/user/password`}>Password</Link>,
           key: 'password',
           icon: <MdResetTv />,

@@ -2,7 +2,13 @@ import React, { useEffect, useState } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { currentAdmin } from '../../functions/auth';
-import AdminDashboard from '../../pages/admin/AdminDashboard';
+import AdminAccount from '../../pages/admin/AdminAccount';
+// import ProductCreate from '../../pages/admin/category/ProductCreate';
+// import Products from '../../pages/admin/category/Products';
+import CategoryCreate from '../../pages/admin/category/CategoryCreate';
+// import SubCategoryCreate from '../../pages/admin/category/SubCategoryCreate';
+// import CreateCoupon from '../../pages/admin/category/CreateCoupon';
+// import AdminPassword from '../../pages/admin/category/AdminPassword';
 import LoadingToRedirect from './LoadingToRedirect';
 
 const AdminRoute = () => {
@@ -26,7 +32,13 @@ const AdminRoute = () => {
 
   return ok ? (
     <Routes>
-      <Route path='dashboard' element={<AdminDashboard />} />
+      <Route path='account' element={<AdminAccount />} />
+      {/* <Route path='product' element={<ProductCreate />} />
+      <Route path='products' element={<Products />} /> */}
+      <Route path='category' element={<CategoryCreate />} />
+      {/* <Route path='subcategory' element={<SubCategoryCreate />} />
+      <Route path='coupon' element={<CreateCoupon />} />
+      <Route path='password' element={<AdminPassword />} /> */}
     </Routes>
   ) : (
     <LoadingToRedirect />
