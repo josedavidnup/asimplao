@@ -15,6 +15,7 @@ import { auth } from './config/firebase';
 import { useDispatch } from 'react-redux';
 import { currentUser } from './functions/auth';
 import './App.css';
+import Loader from './components/loader/Loader';
 
 const App = () => {
   const dispatch = useDispatch();
@@ -55,7 +56,8 @@ const App = () => {
         <Route path='/register/complete' element={<CompleteSignUp />} />
         <Route path='/forgot/password' element={<ForgotPassword />} />
         <Route path='/user/*' element={<UserRoute />} />
-        <Route path='/admin/*' element={<AdminRoute />} />\
+        <Route path='/admin/*' element={<AdminRoute />} />
+        <Route path='/loader' element={<Loader />} />
       </Routes>
       <ToastContainer />
     </>
