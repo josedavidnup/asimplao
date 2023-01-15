@@ -45,6 +45,11 @@ const Header = () => {
       icon: <MdOutlineFavorite />,
     },
     {
+      label: <Link to={`/`}>Cart</Link>,
+      key: 'cart',
+      icon: <FiShoppingCart />,
+    },
+    {
       label: (
         <Link to={`/account`}>
           {/* {user?.name && `Hi, ${user.name.split(' ')[0]}`} */}
@@ -77,12 +82,6 @@ const Header = () => {
         },
       ],
     },
-
-    {
-      label: <Link to={`/`}>Cart</Link>,
-      key: 'cart',
-      icon: <FiShoppingCart />,
-    },
   ];
   const logOut = [
     {
@@ -93,6 +92,11 @@ const Header = () => {
     {
       key: 'wishlist',
       icon: <MdOutlineFavorite />,
+    },
+    {
+      label: <Link to={`/`}>Cart</Link>,
+      key: 'cart',
+      icon: <FiShoppingCart />,
     },
     {
       label: <Link to={`/account`}>Account</Link>,
@@ -110,12 +114,6 @@ const Header = () => {
           icon: <AiOutlineUserAdd />,
         },
       ],
-    },
-
-    {
-      label: <Link to={`/`}>Cart</Link>,
-      key: 'cart',
-      icon: <FiShoppingCart />,
     },
   ];
 

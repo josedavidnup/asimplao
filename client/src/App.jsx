@@ -48,7 +48,6 @@ const App = () => {
   return (
     <>
       <Header />
-      <ToastContainer />
       <Routes>
         <Route path='/' element={<Home />} />
         <Route path='/login' element={<Login />} />
@@ -58,6 +57,7 @@ const App = () => {
         <Route path='/user/*' element={<UserRoute />} />
         <Route path='/admin/*' element={<AdminRoute />} />\
       </Routes>
+      <ToastContainer />
     </>
   );
 };
