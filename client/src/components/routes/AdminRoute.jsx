@@ -10,7 +10,7 @@ import CategoryCreate from '../../pages/admin/category/CategoryCreate';
 // import CreateCoupon from '../../pages/admin/category/CreateCoupon';
 // import AdminPassword from '../../pages/admin/category/AdminPassword';
 import LoadingToRedirect from './LoadingToRedirect';
-
+import Loader from '../loader/Loader';
 const AdminRoute = () => {
   const { user } = useSelector((state) => ({ ...state }));
 
@@ -41,7 +41,7 @@ const AdminRoute = () => {
       <Route path='password' element={<AdminPassword />} /> */}
     </Routes>
   ) : (
-    <LoadingToRedirect />
+    <Loader />
   );
 };
 export default AdminRoute;

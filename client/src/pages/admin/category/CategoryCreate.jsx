@@ -9,10 +9,23 @@ import {
 import { toast } from 'react-toastify';
 
 export const CategoryCreate = () => {
+  const { user } = useSelector((state) => ({ ...state }));
+
   const [name, setName] = useState('');
 
-  const handleSubmit = (e) => {
+  const [categories, setCategories] = useState([]);
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    try {
+      await createCategory({ name }, user.token);
+      setName('');
+      toast.success(`${name} is created`);
+    } catch (error) {
+      if (error.response.status === 400) {
+      }
+      toast.error(error.response.data);
+    }
   };
 
   const categoryForm = () => (
@@ -27,6 +40,7 @@ export const CategoryCreate = () => {
           autoFocus
           required
         />
+        <br />
         <button type='submit' className='btn btn-outline-primary'>
           Save
         </button>

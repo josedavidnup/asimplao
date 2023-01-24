@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { signOut } from 'firebase/auth';
 import { Link, useNavigate } from 'react-router-dom';
-import { LOGGED_OUT_USER } from '../../Redux/actions/actionTypes';
+import { LOGGED_OUT_USER } from '../../redux/actions/actionTypes';
 import { auth } from '../../config/firebase';
 import { Menu } from 'antd';
 import { VscAccount } from 'react-icons/vsc';

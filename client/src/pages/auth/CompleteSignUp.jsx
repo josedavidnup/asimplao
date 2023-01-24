@@ -8,7 +8,7 @@ import { BsPerson } from 'react-icons/bs';
 import { CiLock } from 'react-icons/ci';
 import { Button, Form, Input } from 'antd';
 import { ToastContainer, toast } from 'react-toastify';
-import { LOGGED_IN_USER } from '../../Redux/actions/actionTypes';
+import { LOGGED_IN_USER } from '../../redux/actions/actionTypes';
 
 const CompleteSignUp = () => {
   const [form] = Form.useForm();

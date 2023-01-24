@@ -10,7 +10,7 @@ import ForgotPassword from './pages/auth/ForgotPassword';
 import Header from './components/nav/Header';
 import UserRoute from './components/routes/UserRoute';
 import AdminRoute from './components/routes/AdminRoute';
-import { LOGGED_IN_USER } from './Redux/actions/actionTypes';
+import { LOGGED_IN_USER } from './redux/actions/actionTypes';
 import { auth } from './config/firebase';
 import { useDispatch } from 'react-redux';
 import { currentUser } from './functions/auth';

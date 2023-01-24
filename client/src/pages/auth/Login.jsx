@@ -18,7 +18,7 @@ import { Button, Form, Input } from 'antd';
 import { Typography } from 'antd';
 const { Title } = Typography;
 import { toast } from 'react-toastify';
-import { LOGGED_IN_USER } from '../../Redux/actions/actionTypes';
+import { LOGGED_IN_USER } from '../../redux/actions/actionTypes';
 
 const Login = () => {
   const [form, setForm] = useState({
