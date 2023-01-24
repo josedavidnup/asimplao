@@ -47,6 +47,11 @@ export const CategoryCreate = () => {
       </div>
     </form>
   );
+
+  const laodCategories = async;
+
+  useEffect(() => {}, [third]);
+
   return (
     <div className='container-fluid'>
       <div className='row'>
