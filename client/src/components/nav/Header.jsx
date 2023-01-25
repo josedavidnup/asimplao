@@ -79,6 +79,7 @@ const Header = () => {
         {
           label: <Link to={`/customer/wishlist`}>Wishlist</Link>,
           key: 'wishlist',
+
           icon: <MdOutlineFavorite />,
         },
         {
@@ -119,6 +120,12 @@ const Header = () => {
           label: <Link to={`/register`}>Sign Up</Link>,
           key: 'register',
           icon: <AiOutlineUserAdd />,
+        },
+        {
+          label: 'Log out',
+          icon: <MdLogout />,
+          onClick: signout,
+          danger: true,
         },
       ],
     },

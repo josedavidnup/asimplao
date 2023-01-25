@@ -28,6 +28,7 @@ const Login = () => {
   const cus = useSelector((state) => state.customer.role);
   const { loading } = useSelector((state) => ({ ...state }));
   console.log(cus);
+  console.log(loading);
   const provider = new GoogleAuthProvider();
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -40,11 +41,11 @@ const Login = () => {
     });
   };
 
-  const roleBasedRedirect = () => {
-    if (cus === 'admin') {
+  const roleBasedRedirect = (cus) => {
+    if (cus.role === 'admin') {
       navigate('/admin/account');
     } else {
-      navigate('/customer/account');
+      navigate('/');
     }
   };
 
@@ -64,7 +65,7 @@ const Login = () => {
         const idTokenResult = await user.getIdTokenResult();
         dispatch(createCustomer(idTokenResult.token));
         dispatch(getToken(idTokenResult.token));
-        roleBasedRedirect();
+        roleBasedRedirect(customer);
       } catch (error) {
         console.log(error);
         toast.error(error.message);

@@ -1,9 +1,5 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import {
-  currentCustomer,
-  createOrUpdateCustomer,
-  currentAdmin,
-} from '../../functions/auth';
+import { currentCustomer, createOrUpdateCustomer } from '../../functions/auth';
 import { setLoading } from './loadingSlice';
 
 const initialState = {

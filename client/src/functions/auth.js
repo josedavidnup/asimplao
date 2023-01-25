@@ -35,3 +35,15 @@ export const currentAdmin = async (authtoken) => {
     }
   );
 };
+
+export const changeRole = async (role, id, authtoken) => {
+  return await axios.put(
+    `/change-role`,
+    { role, id },
+    {
+      headers: {
+        authtoken,
+      },
+    }
+  );
+};
