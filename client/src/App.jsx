@@ -8,14 +8,13 @@ import Home from './pages/Home';
 import CompleteSignUp from './pages/auth/CompleteSignUp';
 import ForgotPassword from './pages/auth/ForgotPassword';
 import Header from './components/nav/Header';
-import UserRoute from './components/routes/UserRoute';
+import CustomerRoute from './components/routes/CustomerRoute';
 import AdminRoute from './components/routes/AdminRoute';
-import { LOGGED_IN_USER } from './redux/actions/actionTypes';
 import { auth } from './config/firebase';
 import { useDispatch } from 'react-redux';
-import { currentUser } from './functions/auth';
 import './App.css';
 import Loader from './components/loader/Loader';
+import { getCurrentCustomer, getToken } from './redux/slices/customerSlice';
 
 const App = () => {
   const dispatch = useDispatch();
@@ -24,20 +23,9 @@ const App = () => {
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
       if (user) {
         const idTokenResult = await user.getIdTokenResult();
-        // console.log(idTokenResult);
         try {
-          const res = await currentUser(idTokenResult.token);
-          console.log(res.data);
-          dispatch({
-            type: LOGGED_IN_USER,
-            payload: {
-              name: res.data.name,
-              email: res.data.email,
-              token: idTokenResult.token,
-              role: res.data.role,
-              _id: res.data._id,
-            },
-          });
+          dispatch(getCurrentCustomer(idTokenResult.token));
+          dispatch(getToken(idTokenResult.token));
         } catch (error) {
           console.log(error);
         }
@@ -55,7 +43,7 @@ const App = () => {
         <Route path='/register' element={<Register />} />
         <Route path='/register/complete' element={<CompleteSignUp />} />
         <Route path='/forgot/password' element={<ForgotPassword />} />
-        <Route path='/user/*' element={<UserRoute />} />
+        <Route path='/customer/*' element={<CustomerRoute />} />
         <Route path='/admin/*' element={<AdminRoute />} />
         <Route path='/loader' element={<Loader />} />
       </Routes>

@@ -1,13 +1,13 @@
 const admin = require('../firebase');
-const User = require('../models/user');
+const Customer = require('../models/customer');
 
 exports.authCheck = async (req, res, next) => {
   try {
-    const firebaseUser = await admin
+    const firebaseCustomer = await admin
       .auth()
       .verifyIdToken(req.headers.authtoken);
-    // console.log(firebaseUser);
-    req.user = firebaseUser;
+    // console.log(firebaseCustomer);
+    req.customer = firebaseCustomer;
     next();
   } catch (error) {
     res.status(401).json({
@@ -17,11 +17,11 @@ exports.authCheck = async (req, res, next) => {
 };
 
 exports.adminCheck = async (req, res, next) => {
-  const { email } = req.user;
+  const { email } = req.customer;
 
-  const adminUser = await User.findOne({ email }).exec();
+  const adminCustomer = await Customer.findOne({ email }).exec();
 
-  if (adminUser.role !== 'admin') {
+  if (adminCustomer.role !== 'admin') {
     res.status(403).json({
       err: 'Admin access denied',
     });

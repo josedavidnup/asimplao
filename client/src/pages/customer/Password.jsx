@@ -6,7 +6,7 @@ import { Button, Form, Input } from 'antd';
 import { AiOutlineLock } from 'react-icons/ai';
 import { Typography } from 'antd';
 const { Title } = Typography;
-import UserNav from '../../components/nav/UserNav';
+import CustomerNav from '../../components/nav/CustomerNav';
 
 const Password = () => {
   const [passwords, setPasswords] = useState({
@@ -43,7 +43,7 @@ const Password = () => {
     <div className='container-fluid'>
       <div className='row'>
         <div className='col-md-2 border-right'>
-          <UserNav />
+          <CustomerNav />
         </div>
         <Title level={3}>Update password</Title>
         <Form name='form-complete-registration' onFinish={onFinish}>

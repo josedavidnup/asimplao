@@ -1,10 +1,16 @@
 import { configureStore } from '@reduxjs/toolkit';
-import { userReducer } from '../reducers/userReducer';
+import customerReducer from '../slices/customerSlice';
+import loadingReducer from '../slices/loadingSlice';
+import errorReducer from '../slices/errorSlice';
 
 export default configureStore({
   reducer: {
-    user: userReducer,
+    customer: customerReducer,
     loading: loadingReducer,
-    error: erroReducer,
+    error: errorReducer,
   },
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({
+      serializableCheck: false,
+    }),
 });

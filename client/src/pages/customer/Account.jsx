@@ -1,13 +1,13 @@
 import React from 'react';
-import UserNav from '../../components/nav/UserNav';
+import CustomerNav from '../../components/nav/CustomerNav';
 
 const Account = () => (
   <div className='container-fluid'>
     <div className='row'>
       <div className='col-md-2 border-right'>
-        <UserNav />
+        <CustomerNav />
       </div>
-      <div className='col'>User Account page</div>
+      <div className='col'>Customer Account page</div>
     </div>
   </div>
 );

@@ -2,20 +2,19 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { auth } from '../../config/firebase';
 import { signInWithEmailLink, updatePassword } from 'firebase/auth';
-import { createOrUpdateUser } from '../../functions/auth';
 import { useDispatch } from 'react-redux';
 import { BsPerson } from 'react-icons/bs';
 import { CiLock } from 'react-icons/ci';
 import { Button, Form, Input } from 'antd';
-import { ToastContainer, toast } from 'react-toastify';
-import { LOGGED_IN_USER } from '../../redux/actions/actionTypes';
+import { toast } from 'react-toastify';
+import { createCustomer, getToken } from '../../redux/slices/customerSlice';
 
 const CompleteSignUp = () => {
   const [form] = Form.useForm();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  // const { user } = useSelector((state) => ({ ...state }));
+  // const { customer } = useSelector((state) => ({ ...state }));
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const onFinish = async () => {
@@ -42,21 +41,9 @@ const CompleteSignUp = () => {
         await updatePassword(user, password);
         const idTokenResult = await user.getIdTokenResult();
 
-        console.log('user', user, 'Id', idTokenResult);
-
         try {
-          const res = await createOrUpdateUser(idTokenResult.token);
-          console.log(res);
-          dispatch({
-            type: LOGGED_IN_USER,
-            payload: {
-              name: res.data.name,
-              email: res.data.email,
-              role: res.data.role,
-              _id: res.data._id,
-              token: idTokenResult.token,
-            },
-          });
+          dispatch(createCustomer(idTokenResult.token));
+          dispatch(getToken(idTokenResult.token));
         } catch (error) {
           console.log(error);
           toast.error(error.message);
@@ -118,7 +105,6 @@ const CompleteSignUp = () => {
           </Button>
         </Form.Item>
       </Form>
-      <ToastContainer />
     </main>
   );
 };

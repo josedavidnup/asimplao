@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { signOut } from 'firebase/auth';
 import { Link, useNavigate } from 'react-router-dom';
-import { LOGGED_OUT_USER } from '../../redux/actions/actionTypes';
 import { auth } from '../../config/firebase';
 import { Menu } from 'antd';
 import { VscAccount } from 'react-icons/vsc';
@@ -18,19 +17,17 @@ import {
   MdOutlineFavorite,
   MdResetTv,
 } from 'react-icons/md';
-// import '../../assets/styles/header.css';
+import { logOutCustomer } from '../../redux/slices/customerSlice';
 
 const Header = () => {
-  const { user } = useSelector((state) => ({ ...state }));
+  const { customer } = useSelector((state) => ({ ...state }));
+  // console.log(customer);
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const signout = () => {
     signOut(auth);
-    dispatch({
-      type: LOGGED_OUT_USER,
-      payload: null,
-    });
+    dispatch(logOutCustomer());
     navigate('/login');
   };
 
@@ -52,8 +49,8 @@ const Header = () => {
     {
       label: (
         <Link to={`/account`}>
-          {/* {user?.name && `Hi, ${user.name.split(' ')[0]}`} */}
-          {user?.email && `Hi, ${user.email.split('@')[0]}`}
+          {/* {customer?.name && `Hi, ${customer.name.split(' ')[0]}`} */}
+          {customer?.email && `Hi, ${customer.email.split('@')[0]}`}
         </Link>
       ),
       key: 'SubMenu',
@@ -61,26 +58,26 @@ const Header = () => {
       children: [
         {
           label:
-            user && user.role === 'admin' ? (
+            customer?.role === 'admin' ? (
               <Link to={`/admin/account`}>Admin Account</Link>
             ) : (
-              <Link to={`/user/account`}>Account</Link>
+              <Link to={`/customer/account`}>Account</Link>
             ),
           key: 'account',
           icon: <MdResetTv />,
         },
         {
-          label: <Link to={`/user/password`}>Password</Link>,
+          label: <Link to={`/customer/password`}>Password</Link>,
           key: 'password',
           icon: <MdResetTv />,
         },
         {
-          label: <Link to={`/user/history`}>History</Link>,
+          label: <Link to={`/customer/history`}>History</Link>,
           key: 'history',
           icon: <AiOutlineOrderedList />,
         },
         {
-          label: <Link to={`/user/wishlist`}>Wishlist</Link>,
+          label: <Link to={`/customer/wishlist`}>Wishlist</Link>,
           key: 'wishlist',
           icon: <MdOutlineFavorite />,
         },
@@ -133,7 +130,7 @@ const Header = () => {
         className='header'
         mode='horizontal'
         defaultSelectedKeys={[window.location.pathname]}
-        items={!user ? logOut : account}
+        items={!customer?.email ? logOut : account}
       />
     </>
   );

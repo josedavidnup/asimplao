@@ -10,7 +10,7 @@ import { useSelector } from 'react-redux';
 
 const Register = () => {
   const [email, setEmail] = useState('');
-  const { user } = useSelector((state) => ({ ...state }));
+  const { customer } = useSelector((state) => ({ ...state }));
   const navigate = useNavigate();
   const onFinish = async () => {
     const actionCodeSettings = {
@@ -30,8 +30,8 @@ const Register = () => {
   };
 
   useEffect(() => {
-    if (user && user.token) navigate('/');
-  }, [user, navigate]);
+    if (customer && customer.token) navigate('/');
+  }, [customer, navigate]);
   return (
     <main className='register'>
       <h1>Sign up</h1>
@@ -70,7 +70,6 @@ const Register = () => {
           </Button>
         </Form.Item>
       </Form>
-      <ToastContainer />
     </main>
   );
 };

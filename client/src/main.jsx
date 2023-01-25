@@ -4,7 +4,10 @@ import { BrowserRouter } from 'react-router-dom';
 import App from './App';
 import store from './redux/app/store';
 import { Provider } from 'react-redux';
+import axios from 'axios';
 import 'normalize.css';
+axios.defaults.baseURL =
+  import.meta.env.VITE_API_URL || 'http://localhost:8000/api';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   //<React.StrictMode>

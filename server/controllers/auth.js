@@ -1,34 +1,35 @@
-const User = require('../models/user');
+const Customer = require('../models/customer');
 
-exports.createOrUpdateUser = async (req, res) => {
-  const { name, picture, email } = req.user;
+exports.createOrUpdateCustomer = async (req, res) => {
+  const { name, picture, email } = req.customer;
 
-  const user = await User.findOneAndUpdate(
+  const customer = await Customer.findOneAndUpdate(
     { email },
     { name, picture },
     { new: true }
   );
 
-  if (user) {
-    console.log('userUpdated', user);
-    res.json(user);
+  if (customer) {
+    console.log('customerUpdated', customer);
+    res.json(customer);
   } else {
-    const newUser = await new User({
+    const newCustomer = await new Customer({
       email,
       name,
       picture,
     }).save();
-    console.log('new user', newUser);
-    res.json(newUser);
+    console.log('new customer', newCustomer);
+    res.json(newCustomer);
   }
 };
 
-exports.currenUser = async (req, res) => {
+exports.currentCustomer = async (req, res) => {
   try {
-    const user = await User.findOne({ email: req.user.email });
-    if (!user) throw new Error('no user was found with that email');
-    res.status(200).json(user);
+    const customer = await Customer.findOne({ email: req.customer.email });
+    if (!customer) throw new Error('No customer was found with that email');
+    res.status(200).json(customer);
   } catch (error) {
     console.log(error);
+    res.status(400).send('No existe');
   }
 };

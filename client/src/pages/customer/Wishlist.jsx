@@ -1,14 +1,14 @@
 import React from 'react';
-import UserNav from '../../components/nav/UserNav';
+import CustomerNav from '../../components/nav/CustomerNav';
 
 const Wishlist = () => {
   return (
     <div className='container-fluid'>
       <div className='row'>
         <div className='col-md-2 border-right'>
-          <UserNav />
+          <CustomerNav />
         </div>
-        <div className='col'>User wishlist page</div>
+        <div className='col'>Customer wishlist page</div>
       </div>
     </div>
   );

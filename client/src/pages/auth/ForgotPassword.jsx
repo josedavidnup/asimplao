@@ -11,7 +11,7 @@ import { ToastContainer, toast } from 'react-toastify';
 
 const ForgotPassword = () => {
   const [email, setEmail] = useState('');
-  const { user } = useSelector((state) => ({ ...state }));
+  const { customer } = useSelector((state) => ({ ...state }));
   const navigate = useNavigate();
   const onFinish = async () => {
     try {
@@ -28,8 +28,8 @@ const ForgotPassword = () => {
   };
 
   useEffect(() => {
-    if (user && user.token) navigate('/');
-  }, [user, navigate]);
+    if (customer && customer.token) navigate('/');
+  }, [customer, navigate]);
 
   return (
     <main>
@@ -66,7 +66,6 @@ const ForgotPassword = () => {
           </Button>
         </Form.Item>
       </Form>
-      <ToastContainer />
     </main>
   );
 };

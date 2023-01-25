@@ -2,7 +2,7 @@
   width: 128px;
   height: 128px;
   position: absolute;
-  background-image: url(../../../public/cart-loader.svg);
+  background-image: url(../images/cart-loader.svg);
   background-repeat: no-repeat;
   filter: invert(31%) sepia(94%) saturate(495%) hue-rotate(101deg)
     brightness(94%) contrast(102%);

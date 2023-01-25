@@ -9,7 +9,7 @@ import {
 import { toast } from 'react-toastify';
 
 export const CategoryCreate = () => {
-  const { user } = useSelector((state) => ({ ...state }));
+  const { customer } = useSelector((state) => ({ ...state }));
 
   const [name, setName] = useState('');
 
@@ -18,7 +18,7 @@ export const CategoryCreate = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await createCategory({ name }, user.token);
+      await createCategory({ name }, customer.token);
       setName('');
       toast.success(`${name} is created`);
     } catch (error) {

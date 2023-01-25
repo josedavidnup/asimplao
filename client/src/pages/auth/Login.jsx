@@ -6,8 +6,8 @@ import {
   signInWithPopup,
   GoogleAuthProvider,
 } from 'firebase/auth';
-import { createOrUpdateUser } from '../../functions/auth';
 import { useDispatch, useSelector } from 'react-redux';
+import { createCustomer, getToken } from '../../redux/slices/customerSlice';
 import {
   LockOutlined,
   UserOutlined,
@@ -18,14 +18,16 @@ import { Button, Form, Input } from 'antd';
 import { Typography } from 'antd';
 const { Title } = Typography;
 import { toast } from 'react-toastify';
-import { LOGGED_IN_USER } from '../../redux/actions/actionTypes';
 
 const Login = () => {
   const [form, setForm] = useState({
     email: '',
     password: '',
   });
-  const { user } = useSelector((state) => ({ ...state }));
+  const { customer } = useSelector((state) => ({ ...state }));
+  const cus = useSelector((state) => state.customer.role);
+  const { loading } = useSelector((state) => ({ ...state }));
+  console.log(cus);
   const provider = new GoogleAuthProvider();
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -38,17 +40,17 @@ const Login = () => {
     });
   };
 
-  const roleBasedRedirect = (res) => {
-    if (res.data.role === 'admin') {
-      navigate('/admin/dashboard');
+  const roleBasedRedirect = () => {
+    if (cus === 'admin') {
+      navigate('/admin/account');
     } else {
-      navigate('/user/history');
+      navigate('/customer/account');
     }
   };
 
   useEffect(() => {
-    if (user && user?.token) navigate('/');
-  }, [user]);
+    if (customer?.token) navigate('/');
+  }, [customer.token]);
 
   const onFinish = async () => {
     try {
@@ -57,27 +59,16 @@ const Login = () => {
         form.email,
         form.password
       );
-      const { user } = result;
-      const idTokenResult = await user.getIdTokenResult();
       try {
-        const res = await createOrUpdateUser(idTokenResult.token);
-        console.log(res);
-        dispatch({
-          type: LOGGED_IN_USER,
-          payload: {
-            name: res.data.name,
-            token: idTokenResult.token,
-            email: res.data.email,
-            role: res.data.role,
-            _id: res.data._id,
-          },
-        });
-        roleBasedRedirect(res);
+        const { user } = result;
+        const idTokenResult = await user.getIdTokenResult();
+        dispatch(createCustomer(idTokenResult.token));
+        dispatch(getToken(idTokenResult.token));
+        roleBasedRedirect();
       } catch (error) {
         console.log(error);
         toast.error(error.message);
       }
-
       // navigate('/');
     } catch (error) {
       console.log(error.message);
@@ -91,19 +82,9 @@ const Login = () => {
       const { user } = result;
       const idTokenResult = await user.getIdTokenResult();
       try {
-        const res = await createOrUpdateUser(idTokenResult.token);
-        console.log(res);
-        dispatch({
-          type: LOGGED_IN_USER,
-          payload: {
-            name: res.data.name,
-            email: res.data.email,
-            role: res.data.role,
-            _id: res.data._id,
-            token: idTokenResult.token,
-          },
-        });
-        roleBasedRedirect(res);
+        dispatch(createCustomer(idTokenResult.token));
+        dispatch(getToken(idTokenResult.token));
+        roleBasedRedirect(customer);
       } catch (error) {
         console.log(error);
         toast.error(error.message);

@@ -2,9 +2,9 @@ const { Router } = require('express');
 const router = Router();
 
 //routes
-router.get('/user', async (req, res) => {
+router.get('/customer', async (req, res) => {
   res.json({
-    data: 'Hey, you hit user API endpoint',
+    data: 'Hey, you hit customer API endpoint',
   });
 });
 

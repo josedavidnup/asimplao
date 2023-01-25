@@ -12,13 +12,13 @@ import CategoryCreate from '../../pages/admin/category/CategoryCreate';
 import LoadingToRedirect from './LoadingToRedirect';
 import Loader from '../loader/Loader';
 const AdminRoute = () => {
-  const { user } = useSelector((state) => ({ ...state }));
+  const { customer } = useSelector((state) => ({ ...state }));
 
   const [ok, setOk] = useState(false);
 
   useEffect(() => {
-    if (user && user.token) {
-      currentAdmin(user.token)
+    if (customer.token) {
+      currentAdmin(customer.token)
         .then((res) => {
           console.log('Current admin response: ', res);
           setOk(true);
@@ -28,7 +28,7 @@ const AdminRoute = () => {
           setOk(false);
         });
     }
-  }, [user]);
+  }, [customer]);
 
   return ok ? (
     <Routes>
