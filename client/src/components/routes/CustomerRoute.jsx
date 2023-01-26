@@ -10,13 +10,6 @@ import Loader from '../loader/Loader';
 
 const CustomerRoute = () => {
   const { customer } = useSelector((state) => ({ ...state }));
-  // console.log(customer);
-  // const navigate = useNavigate;
-  // useEffect(() => {
-  //   if (customer?.role === 'admin') {
-  //     navigate('/admin/account');
-  //   }
-  // }, [navigate]);
 
   return customer?.token && customer?.role === 'subscriber' ? (
     <Routes>

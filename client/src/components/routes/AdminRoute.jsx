@@ -3,14 +3,10 @@ import { Routes, Route } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { currentAdmin } from '../../functions/auth';
 import AdminAccount from '../../pages/admin/AdminAccount';
-// import ProductCreate from '../../pages/admin/category/ProductCreate';
-// import Products from '../../pages/admin/category/Products';
 import CategoryCreate from '../../pages/admin/category/CategoryCreate';
-// import SubCategoryCreate from '../../pages/admin/category/SubCategoryCreate';
-// import CreateCoupon from '../../pages/admin/category/CreateCoupon';
-// import AdminPassword from '../../pages/admin/category/AdminPassword';
 import LoadingToRedirect from './LoadingToRedirect';
 import Loader from '../loader/Loader';
+import CategoryUpdate from '../../pages/admin/category/CategoryUpdate';
 const AdminRoute = () => {
   const { customer } = useSelector((state) => ({ ...state }));
 
@@ -20,11 +16,11 @@ const AdminRoute = () => {
     if (customer.token) {
       currentAdmin(customer.token)
         .then((res) => {
-          console.log('Current admin response: ', res);
+          // console.log('Current admin response: ', res);
           setOk(true);
         })
         .catch((err) => {
-          console.log('Admin route error: ', err);
+          // console.log('Admin route error: ', err);
           setOk(false);
         });
     }
@@ -33,12 +29,8 @@ const AdminRoute = () => {
   return ok ? (
     <Routes>
       <Route path='account' element={<AdminAccount />} />
-      {/* <Route path='product' element={<ProductCreate />} />
-      <Route path='products' element={<Products />} /> */}
       <Route path='category' element={<CategoryCreate />} />
-      {/* <Route path='subcategory' element={<SubCategoryCreate />} />
-      <Route path='coupon' element={<CreateCoupon />} />
-      <Route path='password' element={<AdminPassword />} /> */}
+      <Route path='category/:slug' element={<CategoryUpdate />} />
     </Routes>
   ) : (
     <Loader />
