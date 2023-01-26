@@ -9,6 +9,7 @@ import {
 import { Link } from 'react-router-dom';
 import { AiOutlineEdit, AiOutlineDelete } from 'react-icons/ai';
 import CategoryForm from '../../../components/forms/CategoryForm';
+import LocalSearch from '../../../components/forms/LocalSearch';
 
 export const CategoryCreate = () => {
   const { customer, category } = useSelector((state) => ({ ...state }));
@@ -37,11 +38,6 @@ export const CategoryCreate = () => {
     }
   };
 
-  const handleSearchChange = (e) => {
-    e.preventDefault();
-    setkeyword(e.target.value.toLowerCase());
-  };
-
   const searched = (keyword) => (c) => c.name.toLowerCase().includes(keyword);
 
   useEffect(() => {
@@ -61,16 +57,7 @@ export const CategoryCreate = () => {
             name={name}
             setName={setName}
           />
-
-          <input
-            className='form-control'
-            type='search'
-            name={name}
-            placeholder='Filter'
-            value={keyword}
-            onChange={handleSearchChange}
-          />
-
+          <LocalSearch keyword={keyword} setkeyword={setkeyword} />
           {category.categoryList?.filter(searched(keyword)).map((c) => (
             <div className='alert alert-secondary' key={c._id}>
               {c.name}
