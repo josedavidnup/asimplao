@@ -14,6 +14,7 @@ export const CategoryCreate = () => {
   const { customer, category } = useSelector((state) => ({ ...state }));
   const dispatch = useDispatch();
   const [name, setName] = useState('');
+  const [keyword, setkeyword] = useState([]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -36,6 +37,13 @@ export const CategoryCreate = () => {
     }
   };
 
+  const handleSearchChange = (e) => {
+    e.preventDefault();
+    setkeyword(e.target.value.toLowerCase());
+  };
+
+  const searched = (keyword) => (c) => c.name.toLowerCase().includes(keyword);
+
   useEffect(() => {
     dispatch(getAllCategory());
   }, [dispatch]);
@@ -53,9 +61,19 @@ export const CategoryCreate = () => {
             name={name}
             setName={setName}
           />
-          {category.categoryList?.map((c) => (
+
+          <input
+            className='form-control'
+            type='search'
+            name={name}
+            placeholder='Filter'
+            value={keyword}
+            onChange={handleSearchChange}
+          />
+
+          {category.categoryList?.filter(searched(keyword)).map((c) => (
             <div className='alert alert-secondary' key={c._id}>
-              {c.name}{' '}
+              {c.name}
               <span
                 onClick={() => handleDelete(c.slug)}
                 className='btn btn-sm float-right'
