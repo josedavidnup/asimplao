@@ -6,6 +6,7 @@ import {
   updateACategory,
   getACategory,
 } from '../../../redux/slices/categorySlice';
+import CategoryForm from '../../../components/forms/CategoryForm';
 
 const CategoryUpdate = () => {
   const { customer } = useSelector((state) => ({ ...state }));
@@ -26,26 +27,6 @@ const CategoryUpdate = () => {
     navigate('/admin/category');
   };
 
-  const categoryForm = () => (
-    <form onSubmit={handleSubmit}>
-      <div className='form-group'>
-        <label>Name</label>
-        <input
-          type='text'
-          className='form-control'
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-          autoFocus
-          required
-        />
-        <br />
-        <button type='submit' className='btn btn-outline-primary'>
-          Save
-        </button>
-      </div>
-    </form>
-  );
-
   useEffect(() => {
     dispatch(getACategory(slug));
   }, []);
@@ -58,7 +39,11 @@ const CategoryUpdate = () => {
         </div>
         <div className='col'>
           <h4>Update category</h4>
-          {categoryForm()}
+          <CategoryForm
+            handleSubmit={handleSubmit}
+            name={name}
+            setName={setName}
+          />
         </div>
       </div>
     </div>

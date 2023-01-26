@@ -8,6 +8,7 @@ import {
 } from '../../../redux/slices/categorySlice';
 import { Link } from 'react-router-dom';
 import { AiOutlineEdit, AiOutlineDelete } from 'react-icons/ai';
+import CategoryForm from '../../../components/forms/CategoryForm';
 
 export const CategoryCreate = () => {
   const { customer, category } = useSelector((state) => ({ ...state }));
@@ -23,26 +24,6 @@ export const CategoryCreate = () => {
     dispatch(createNewCategory(data));
     setName('');
   };
-
-  const categoryForm = () => (
-    <form onSubmit={handleSubmit}>
-      <div className='form-group'>
-        <label>Name</label>
-        <input
-          type='text'
-          className='form-control'
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-          autoFocus
-          required
-        />
-        <br />
-        <button type='submit' className='btn btn-outline-primary'>
-          Save
-        </button>
-      </div>
-    </form>
-  );
 
   const handleDelete = async (slug) => {
     const data = {
@@ -67,7 +48,11 @@ export const CategoryCreate = () => {
         </div>
         <div className='col'>
           <h4>Create category</h4>
-          {categoryForm()}
+          <CategoryForm
+            handleSubmit={handleSubmit}
+            name={name}
+            setName={setName}
+          />
           {category.categoryList?.map((c) => (
             <div className='alert alert-secondary' key={c._id}>
               {c.name}{' '}
