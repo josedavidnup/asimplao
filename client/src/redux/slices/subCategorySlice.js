@@ -15,10 +15,10 @@ const initialState = {
 export const createNewSubCategory = createAsyncThunk(
   'category/createNewSubCategory',
   async (data, { dispatch }) => {
-    const { name, token } = data;
+    const { name, category, token } = data;
     dispatch(setLoading(true));
     try {
-      await createSubCategory({ name }, token);
+      await createSubCategory({ name, category }, token);
       toast.success(`${name} is created`);
       dispatch(getAllSubCategory());
     } catch (error) {

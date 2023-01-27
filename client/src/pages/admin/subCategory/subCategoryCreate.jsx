@@ -13,15 +13,19 @@ import LocalSearch from '../../../components/forms/LocalSearch';
 import { getAllCategory } from '../../../redux/slices/categorySlice';
 
 const subCategoryCreate = () => {
-  const { customer, category } = useSelector((state) => ({ ...state }));
+  const { customer, subCategory, category } = useSelector((state) => ({
+    ...state,
+  }));
   const dispatch = useDispatch();
   const [name, setName] = useState('');
+  const [categorySelected, setCategorySelected] = useState('');
   const [keyword, setkeyword] = useState([]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     const data = {
       name,
+      category: categorySelected,
       token: customer.token,
     };
     dispatch(createNewSubCategory(data));
@@ -55,9 +59,19 @@ const subCategoryCreate = () => {
           <h4>Create a Subcategory</h4>
 
           <div className='form-group'>
-            <label> Category </label>
-            <select name='category'>
-              <option value=''>hola</option>
+            <label> Categories </label>
+            <select
+              name='category'
+              className={'form-control'}
+              onChange={(e) => setCategorySelected(e.target.value)}
+            >
+              <option>Please select</option>
+              {category.categoryList.length > 0 &&
+                category.categoryList.map((c) => (
+                  <option value={c._id} key={c._id}>
+                    {c.name}
+                  </option>
+                ))}
             </select>
           </div>
           <CategoryForm
@@ -66,7 +80,7 @@ const subCategoryCreate = () => {
             setName={setName}
           />
           <LocalSearch keyword={keyword} setkeyword={setkeyword} />
-          {/* {category.categoryList?.filter(searched(keyword)).map((c) => (
+          {subCategory.subCategoryList?.filter(searched(keyword)).map((c) => (
             <div className='alert alert-secondary' key={c._id}>
               {c.name}
               <span
@@ -81,7 +95,7 @@ const subCategoryCreate = () => {
                 </Link>
               </span>
             </div>
-          ))} */}
+          ))}
         </div>
       </div>
     </div>
