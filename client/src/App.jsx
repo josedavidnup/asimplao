@@ -47,7 +47,7 @@ const App = () => {
         <Route path='/admin/*' element={<AdminRoute />} />
         <Route path='/loader' element={<Loader />} />
       </Routes>
-      <ToastContainer />
+      <ToastContainer pauseOnFocusLoss={false} />
     </>
   );
 };

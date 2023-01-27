@@ -7,7 +7,7 @@ import CategoryCreate from '../../pages/admin/category/CategoryCreate';
 import LoadingToRedirect from './LoadingToRedirect';
 import Loader from '../loader/Loader';
 import CategoryUpdate from '../../pages/admin/category/CategoryUpdate';
-import SubCategoryCreate from '../../pages/admin/subCategory/subCategoryCreate';
+import SubCategoryCreate from '../../pages/admin/subCategory/SubCategoryCreate';
 const AdminRoute = () => {
   const { customer } = useSelector((state) => ({ ...state }));
 
