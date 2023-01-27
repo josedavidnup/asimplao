@@ -7,6 +7,7 @@ import CategoryCreate from '../../pages/admin/category/CategoryCreate';
 import LoadingToRedirect from './LoadingToRedirect';
 import Loader from '../loader/Loader';
 import CategoryUpdate from '../../pages/admin/category/CategoryUpdate';
+import SubCategoryCreate from '../../pages/admin/subCategory/subCategoryCreate';
 const AdminRoute = () => {
   const { customer } = useSelector((state) => ({ ...state }));
 
@@ -31,6 +32,7 @@ const AdminRoute = () => {
       <Route path='account' element={<AdminAccount />} />
       <Route path='category' element={<CategoryCreate />} />
       <Route path='category/:slug' element={<CategoryUpdate />} />
+      <Route path='subcategory' element={<SubCategoryCreate />} />
     </Routes>
   ) : (
     <Loader />
