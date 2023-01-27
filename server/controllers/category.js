@@ -55,6 +55,6 @@ exports.remove = async (req, res) => {
     res.json(deletedCategory);
   } catch (error) {
     console.log(error.message);
-    res.status(400).send('Category item failed');
+    res.status(400).send('Category delete failed');
   }
 };

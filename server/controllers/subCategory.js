@@ -1,34 +1,39 @@
-const Category = require('../models/category');
+const Subcategory = require('../models/subCategory');
 const slugify = require('slugify');
 
 exports.create = async (req, res) => {
   try {
     const { name } = req.body;
-    const category = await new Category({ name, slug: slugify(name) }).save();
-    res.json(category);
+    const subCategory = await new Subcategory({
+      name,
+      slug: slugify(name),
+    }).save();
+    res.json(subCategory);
   } catch (error) {
-    res.status(400).send('Create category failed');
+    res.status(400).send('Create Sub category failed');
   }
 };
 
 exports.list = async (req, res) => {
   try {
-    const categoryList = await Category.find({}).sort({ createdAt: -1 }).exec();
-    res.json(categoryList);
+    const subCategoryList = await Subcategory.find({})
+      .sort({ createdAt: -1 })
+      .exec();
+    res.json(subCategoryList);
   } catch (error) {
     console.log(error.message);
-    res.status(400).send('List category failed');
+    res.status(400).send('Sub category list failed');
   }
 };
 
 exports.read = async (req, res) => {
   try {
     const { slug } = req.params;
-    const category = await Category.findOne({ slug }).exec();
-    res.json(category);
+    const subCategory = await Subcategory.findOne({ slug }).exec();
+    res.json(subCategory);
   } catch (error) {
     console.log(error.message);
-    res.status(400).send('Category item failed');
+    res.status(400).send('Sub Category item failed');
   }
 };
 
@@ -36,25 +41,27 @@ exports.update = async (req, res) => {
   try {
     const { name } = req.body;
     const { slug } = req.params;
-    const updatedCategory = await Category.findOneAndUpdate(
+    const subUpdatedCategory = await Subcategory.findOneAndUpdate(
       { slug },
       { name, slug: slugify(name) },
       { new: true }
     );
-    res.json(updatedCategory);
+    res.json(subUpdatedCategory);
   } catch (error) {
     console.log(error.message);
-    res.status(400).send('Category update failed');
+    res.status(400).send('Sub Category update failed');
   }
 };
 
 exports.remove = async (req, res) => {
   try {
     const { slug } = req.params;
-    const deletedCategory = await Category.findOneAndDelete({ slug }).exec();
-    res.json(deletedCategory);
+    const subDeletedCategory = await Subcategory.findOneAndDelete({
+      slug,
+    }).exec();
+    res.json(subDeletedCategory);
   } catch (error) {
     console.log(error.message);
-    res.status(400).send('Category item failed');
+    res.status(400).send('Sub Category item failed');
   }
 };
