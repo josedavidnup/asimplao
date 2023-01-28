@@ -11,7 +11,7 @@ const initialState = {
   title: '',
   description: '',
   price: '',
-  categories: '',
+  categories: [],
   category: '',
   subCaegory: [],
   shipping: '',
@@ -24,8 +24,9 @@ const initialState = {
 };
 
 const ProductCreate = () => {
+  const { customer } = useSelector((state) => ({ ...state }));
   const [productValues, setProductValues] = useState(initialState);
-
+  const dispatch = useDispatch();
   const {
     title,
     description,
@@ -42,9 +43,36 @@ const ProductCreate = () => {
     brand,
   } = productValues;
 
-  const handleOnChange = (e) => {};
+  const handleOnChange = (e) => {
+    setProductValues({
+      ...productValues,
+      [e.target.name]: e.target.value,
+    });
+    console.log(e.target.name, '--------', e.target.value);
+  };
   const handleOnSubmit = (e) => {
     e.preventDefault();
+    const data = {
+      productValues,
+      token: customer.token,
+    };
+    dispatch(createNewProduct(data));
+    setProductValues({
+      ...productValues,
+      title: '',
+      description: '',
+      price: '',
+      categories: [],
+      category: '',
+      subCaegory: [],
+      shipping: '',
+      quantity: '',
+      images: [],
+      colors: ['Black', 'Brown', 'Silver', 'White', 'Blue'],
+      brands: ['Apple', 'Samsung', 'Microsoft', 'Lenovo', 'ASUS'],
+      color: '',
+      brand: '',
+    });
   };
 
   return (
@@ -79,16 +107,16 @@ const ProductCreate = () => {
             <div className='form-group'>
               <label>Price</label>
               <input
-                type='text'
-                name='number'
+                type='number'
+                name='price'
                 className='form-control'
                 value={price}
                 onChange={handleOnChange}
               />
             </div>
-            <div className='form-group'>
+            {/* <div className='form-group'>
               <label>Category</label>
-              {/* <select
+              <select
                 name='category'
                 className='form-control'
                 onChange={handleOnChange}
@@ -99,9 +127,9 @@ const ProductCreate = () => {
                     {c}
                   </option>
                 ))}
-              </select> */}
-            </div>
-            <div className='form-group'>
+              </select>
+            </div> */}
+            {/* <div className='form-group'>
               <label>Sub Category</label>
               <input
                 type='text'
@@ -110,14 +138,18 @@ const ProductCreate = () => {
                 value={subCaegory}
                 onChange={handleOnChange}
               />
-            </div>
+            </div> */}
             <div className='form-group'>
               <label>Shipping</label>
               <select
                 name='shipping'
                 className='form-control'
                 onChange={handleOnChange}
+                value={shipping}
               >
+                <option value='' disabled>
+                  Please select
+                </option>
                 <option value='No'>No</option>
                 <option value='Yes'>Yes</option>
               </select>
@@ -132,8 +164,8 @@ const ProductCreate = () => {
                 onChange={handleOnChange}
               />
             </div>
-            <div className='form-group'>
-              <label>images</label>
+            {/* <div className='form-group'>
+              <label>Images</label>
               <input
                 type='text'
                 name='images'
@@ -141,26 +173,19 @@ const ProductCreate = () => {
                 value={images}
                 onChange={handleOnChange}
               />
-            </div>
-            <div className='form-group'>
-              <label>brands</label>
-              <input
-                type='text'
-                name='brands'
-                className='form-control'
-                value={brands}
-                onChange={handleOnChange}
-              />
-            </div>
+            </div> */}
             <div className='form-group'>
               <label>Color</label>
               <select
                 name='color'
                 className='form-control'
                 onChange={handleOnChange}
+                value={color}
               >
-                <option>Please select color</option>
-                {colors.map((c) => (
+                <option value='' disabled>
+                  Please select color
+                </option>
+                {colors?.map((c) => (
                   <option key={c} value={c}>
                     {c}
                   </option>
@@ -173,9 +198,12 @@ const ProductCreate = () => {
                 name='brand'
                 className='form-control'
                 onChange={handleOnChange}
+                value={brand}
               >
-                <option>Please select brand</option>
-                {brands.map((b) => (
+                <option value='' disabled>
+                  Please select brand
+                </option>
+                {brands?.map((b) => (
                   <option key={b} value={b}>
                     {b}
                   </option>
