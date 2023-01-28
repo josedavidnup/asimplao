@@ -60,7 +60,6 @@ const Login = () => {
         const { user } = result;
         const idTokenResult = await user.getIdTokenResult();
         dispatch(createCustomer(idTokenResult.token));
-        // dispatch(getToken(idTokenResult.token));
         roleBasedRedirect(customer);
       } catch (error) {
         console.log(error);
