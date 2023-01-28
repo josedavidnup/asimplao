@@ -6,7 +6,7 @@ exports.authCheck = async (req, res, next) => {
     const firebaseCustomer = await admin
       .auth()
       .verifyIdToken(req.headers.authtoken);
-    // console.log(firebaseCustomer);
+
     req.customer = firebaseCustomer;
     next();
   } catch (error) {
@@ -16,12 +16,40 @@ exports.authCheck = async (req, res, next) => {
   }
 };
 
+exports.retailerCheck = async (req, res, next) => {
+  const { email } = req.customer;
+
+  const retailerAuth = await Retailer.findOne({ email }).exec();
+
+  if (retailerAuth.role !== 'retailer') {
+    res.status(403).json({
+      err: 'retailer access denied',
+    });
+  } else {
+    next();
+  }
+};
+
 exports.adminCheck = async (req, res, next) => {
   const { email } = req.customer;
 
-  const adminCustomer = await Customer.findOne({ email }).exec();
+  const adminAuth = await Customer.findOne({ email }).exec();
 
-  if (adminCustomer.role !== 'admin') {
+  if (adminAuth.role !== 'admin') {
+    res.status(403).json({
+      err: 'Admin access denied',
+    });
+  } else {
+    next();
+  }
+};
+
+exports.superAdminCheck = async (req, res, next) => {
+  const { email } = req.customer;
+
+  const superAdminAuth = await Superadmin.findOne({ email }).exec();
+
+  if (superAdminAuth.role !== 'superadmin') {
     res.status(403).json({
       err: 'Admin access denied',
     });
