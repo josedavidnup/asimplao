@@ -63,9 +63,9 @@ export const deleteASubCategory = createAsyncThunk(
 export const updateASubCategory = createAsyncThunk(
   'category/updateASubCategory',
   async (data, { dispatch }) => {
-    const { slug, name, token } = data;
+    const { slug, name, category, token } = data;
     try {
-      await updateSubCategory(slug, { name }, token);
+      await updateSubCategory(slug, { name, category }, token);
       toast.success(`${name} has been updated`);
       dispatch(getAllSubCategory());
     } catch (error) {
@@ -80,7 +80,8 @@ export const getASubCategory = createAsyncThunk(
   'category/getASubCategory',
   async (slug, { dispatch }) => {
     try {
-      await getSubCategory(slug);
+      const subCategory = await getSubCategory(slug);
+      dispatch(subCategoryDetail(subCategory));
       dispatch(getAllSubCategory());
     } catch (error) {
       if (error.response.status === 400) {
@@ -96,6 +97,9 @@ export const subCategorySlice = createSlice({
   reducers: {
     allSubCategories: (state, action) => {
       state.subCategoryList = action.payload.data;
+    },
+    subCategoryDetail: (state, action) => {
+      state.subCategoryUpdate = action.payload.data;
     },
   },
 });

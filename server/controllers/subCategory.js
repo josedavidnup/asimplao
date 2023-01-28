@@ -40,11 +40,11 @@ exports.read = async (req, res) => {
 
 exports.update = async (req, res) => {
   try {
-    const { name } = req.body;
+    const { name, category } = req.body;
     const { slug } = req.params;
     const subUpdatedCategory = await Subcategory.findOneAndUpdate(
       { slug },
-      { name, slug: slugify(name) },
+      { name, parent: category, slug: slugify(name) },
       { new: true }
     );
     res.json(subUpdatedCategory);

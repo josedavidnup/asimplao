@@ -27,10 +27,6 @@ const CategoryUpdate = () => {
     navigate('/admin/category');
   };
 
-  useEffect(() => {
-    dispatch(getACategory(slug));
-  }, []);
-
   return (
     <div className='container-fluid'>
       <div className='row'>
