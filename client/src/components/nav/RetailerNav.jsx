@@ -1,42 +1,42 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-const AdminNav = () => {
+const RetailerNav = () => {
   return (
     <nav>
       <ul className='nav flex-column'>
         <li className='nav-item'>
-          <Link to='/admin/account' className='nav-link'>
+          <Link to='/retailer/account' className='nav-link'>
             Account
           </Link>
         </li>
         <li className='nav-item'>
-          <Link to='/admin/product' className='nav-link'>
+          <Link to='/retailer/product' className='nav-link'>
             Product
           </Link>
         </li>
         <li className='nav-item'>
-          <Link to='/admin/products' className='nav-link'>
+          <Link to='/retailer/products' className='nav-link'>
             Products
           </Link>
         </li>
         <li className='nav-item'>
-          <Link to='/admin/category' className='nav-link'>
+          <Link to='/retailer/category' className='nav-link'>
             Category
           </Link>
         </li>
         <li className='nav-item'>
-          <Link to='/admin/subcategory' className='nav-link'>
+          <Link to='/retailer/subcategory' className='nav-link'>
             Sub Category
           </Link>
         </li>
         <li className='nav-item'>
-          <Link to='/admin/coupon' className='nav-link'>
+          <Link to='/retailer/coupon' className='nav-link'>
             Coupon
           </Link>
         </li>
         <li className='nav-item'>
-          <Link to='/admin/password' className='nav-link'>
+          <Link to='/retailer/password' className='nav-link'>
             Password
           </Link>
         </li>
@@ -45,4 +45,4 @@ const AdminNav = () => {
   );
 };
 
-export default AdminNav;
+export default RetailerNav;

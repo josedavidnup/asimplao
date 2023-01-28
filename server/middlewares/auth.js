@@ -19,7 +19,7 @@ exports.authCheck = async (req, res, next) => {
 exports.retailerCheck = async (req, res, next) => {
   const { email } = req.customer;
 
-  const retailerAuth = await Retailer.findOne({ email }).exec();
+  const retailerAuth = await Customer.findOne({ email }).exec();
 
   if (retailerAuth.role !== 'retailer') {
     res.status(403).json({
@@ -30,30 +30,30 @@ exports.retailerCheck = async (req, res, next) => {
   }
 };
 
-exports.adminCheck = async (req, res, next) => {
-  const { email } = req.customer;
+// exports.adminCheck = async (req, res, next) => {
+//   const { email } = req.customer;
 
-  const adminAuth = await Customer.findOne({ email }).exec();
+//   const adminAuth = await Customer.findOne({ email }).exec();
 
-  if (adminAuth.role !== 'admin') {
-    res.status(403).json({
-      err: 'Admin access denied',
-    });
-  } else {
-    next();
-  }
-};
+//   if (adminAuth.role !== 'admin') {
+//     res.status(403).json({
+//       err: 'Admin access denied',
+//     });
+//   } else {
+//     next();
+//   }
+// };
 
-exports.superAdminCheck = async (req, res, next) => {
-  const { email } = req.customer;
+// exports.superAdminCheck = async (req, res, next) => {
+//   const { email } = req.customer;
 
-  const superAdminAuth = await Superadmin.findOne({ email }).exec();
+//   const superAdminAuth = await Superadmin.findOne({ email }).exec();
 
-  if (superAdminAuth.role !== 'superadmin') {
-    res.status(403).json({
-      err: 'Admin access denied',
-    });
-  } else {
-    next();
-  }
-};
+//   if (superAdminAuth.role !== 'superadmin') {
+//     res.status(403).json({
+//       err: 'Admin access denied',
+//     });
+//   } else {
+//     next();
+//   }
+// };

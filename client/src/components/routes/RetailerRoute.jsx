@@ -1,22 +1,23 @@
 import React, { useEffect, useState } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import { currentAdmin } from '../../functions/auth';
-import AdminAccount from '../../pages/admin/AdminAccount';
-import CategoryCreate from '../../pages/admin/category/CategoryCreate';
+import { currentRetailer } from '../../functions/auth';
+import RetailerAccount from '../../pages/retailer/RetailerAccount';
+import CategoryCreate from '../../pages/retailer/category/CategoryCreate';
 import LoadingToRedirect from './LoadingToRedirect';
 import Loader from '../loader/Loader';
-import CategoryUpdate from '../../pages/admin/category/CategoryUpdate';
-import SubCategoryCreate from '../../pages/admin/subCategory/SubCategoryCreate';
-import SubCategoryUpdate from '../../pages/admin/subCategory/SubCategoryUpdate';
-const AdminRoute = () => {
+import CategoryUpdate from '../../pages/retailer/category/CategoryUpdate';
+import SubCategoryCreate from '../../pages/retailer/subCategory/SubCategoryCreate';
+import SubCategoryUpdate from '../../pages/retailer/subCategory/SubCategoryUpdate';
+
+const RetailerRoute = () => {
   const { customer } = useSelector((state) => ({ ...state }));
 
   const [ok, setOk] = useState(false);
 
   useEffect(() => {
     if (customer.token) {
-      currentAdmin(customer.token)
+      currentRetailer(customer.token)
         .then((res) => {
           // console.log('Current admin response: ', res);
           setOk(true);
@@ -30,7 +31,7 @@ const AdminRoute = () => {
 
   return ok ? (
     <Routes>
-      <Route path='account' element={<AdminAccount />} />
+      <Route path='account' element={<RetailerAccount />} />
       <Route path='category' element={<CategoryCreate />} />
       <Route path='category/:slug' element={<CategoryUpdate />} />
       <Route path='subcategory' element={<SubCategoryCreate />} />
@@ -40,4 +41,4 @@ const AdminRoute = () => {
     <Loader />
   );
 };
-export default AdminRoute;
+export default RetailerRoute;

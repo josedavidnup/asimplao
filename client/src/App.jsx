@@ -9,7 +9,7 @@ import CompleteSignUp from './pages/auth/CompleteSignUp';
 import ForgotPassword from './pages/auth/ForgotPassword';
 import Header from './components/nav/Header';
 import CustomerRoute from './components/routes/CustomerRoute';
-import AdminRoute from './components/routes/AdminRoute';
+import RetailerRoute from './components/routes/RetailerRoute';
 import { auth } from './config/firebase';
 import { useDispatch } from 'react-redux';
 import './App.css';
@@ -43,7 +43,7 @@ const App = () => {
         <Route path='/register/complete' element={<CompleteSignUp />} />
         <Route path='/forgot/password' element={<ForgotPassword />} />
         <Route path='/customer/*' element={<CustomerRoute />} />
-        <Route path='/admin/*' element={<AdminRoute />} />
+        <Route path='/retailer/*' element={<RetailerRoute />} />
         <Route path='/loader' element={<Loader />} />
       </Routes>
       <ToastContainer pauseOnFocusLoss={false} />

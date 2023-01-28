@@ -1,11 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import AdminNav from '../../../components/nav/AdminNav';
+import RetailerNav from '../../../components/nav/RetailerNav';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import {
-  updateACategory,
-  getACategory,
-} from '../../../redux/slices/categorySlice';
+import { updateACategory } from '../../../redux/slices/categorySlice';
 import CategoryForm from '../../../components/forms/CategoryForm';
 
 const CategoryUpdate = () => {
@@ -24,14 +21,14 @@ const CategoryUpdate = () => {
     };
     dispatch(updateACategory(data));
     setName('');
-    navigate('/admin/category');
+    navigate('/retailer/category');
   };
 
   return (
     <div className='container-fluid'>
       <div className='row'>
         <div className='col-md-2 border-right'>
-          <AdminNav />
+          <RetailerNav />
         </div>
         <div className='col'>
           <h4>Update category</h4>

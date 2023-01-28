@@ -2,7 +2,7 @@ const { Router } = require('express');
 const router = Router();
 
 // middlewares
-const { authCheck, adminCheck } = require('../middlewares/auth');
+const { authCheck, retailerCheck } = require('../middlewares/auth');
 
 //controllers
 const {
@@ -14,10 +14,10 @@ const {
 } = require('../controllers/product');
 
 //routes
-router.post('/product', authCheck, adminCheck, create);
-router.get('/products', list);
-router.get('/product/:slug', read);
-router.put('/product/:slug', authCheck, adminCheck, update);
-router.delete('/product/:slug', authCheck, adminCheck, remove);
+router.post('/product', authCheck, retailerCheck, create);
+// router.get('/products', list);
+// router.get('/product/:slug', read);
+// router.put('/product/:slug', authCheck, retailerCheck, update);
+// router.delete('/product/:slug', authCheck, retailerCheck, remove);
 
 module.exports = router;

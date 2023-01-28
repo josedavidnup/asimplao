@@ -50,7 +50,11 @@ const Header = () => {
       label: (
         <Link to={`/account`}>
           {/* {customer?.name && `Hi, ${customer.name.split(' ')[0]}`} */}
-          {customer?.email && `Hi, ${customer.email.split('@')[0]}`}
+          {customer?.name
+            ? `Hi, ${customer.name.split(' ')[0]}`
+            : customer?.email
+            ? `Hi, ${customer.email.split('@')[0]}`
+            : `Hi`}
         </Link>
       ),
       key: 'SubMenu',
@@ -58,8 +62,8 @@ const Header = () => {
       children: [
         {
           label:
-            customer?.role === 'admin' ? (
-              <Link to={`/admin/account`}>Admin Account</Link>
+            customer?.role === 'retailer' ? (
+              <Link to={`/retailer/account`}>Retailer Account</Link>
             ) : (
               <Link to={`/customer/account`}>Account</Link>
             ),

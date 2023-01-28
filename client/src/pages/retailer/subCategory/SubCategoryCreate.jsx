@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import AdminNav from '../../../components/nav/AdminNav';
+import RetailerNav from '../../../components/nav/RetailerNav';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   createNewSubCategory,
@@ -53,7 +53,7 @@ const subCategoryCreate = () => {
     <div className='container-fluid'>
       <div className='row'>
         <div className='col-md-2 border-right'>
-          <AdminNav />
+          <RetailerNav />
         </div>
         <div className='col'>
           <h4>Create a Subcategory</h4>
@@ -90,7 +90,7 @@ const subCategoryCreate = () => {
                 {<AiOutlineDelete className='text-danger' />}
               </span>
               <span className='btn btn-sm float-right'>
-                <Link to={`/admin/subcategory/${c.slug}`}>
+                <Link to={`/retailer/subcategory/${c.slug}`}>
                   <AiOutlineEdit className='text-warning' />
                 </Link>
               </span>

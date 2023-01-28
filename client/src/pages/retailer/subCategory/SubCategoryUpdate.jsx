@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import AdminNav from '../../../components/nav/AdminNav';
+import RetailerNav from '../../../components/nav/RetailerNav';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
 import { updateASubCategory } from '../../../redux/slices/subCategorySlice';
@@ -28,7 +28,7 @@ const SubCategoryUpdate = () => {
     dispatch(updateASubCategory(data));
     setName('');
     setParent('');
-    navigate('/admin/subcategory');
+    navigate('/retailer/subcategory');
   };
 
   const getASubCategory = async () => {
@@ -48,7 +48,7 @@ const SubCategoryUpdate = () => {
     <div className='container-fluid'>
       <div className='row'>
         <div className='col-md-2 border-right'>
-          <AdminNav />
+          <RetailerNav />
         </div>
         <div className='col'>
           <h4>Update a Subcategory</h4>

@@ -38,8 +38,8 @@ const Login = () => {
   };
 
   const roleBasedRedirect = (cus) => {
-    if (cus.role === 'admin') {
-      navigate('/admin/account');
+    if (cus.role === 'retailer') {
+      navigate('/retailer/account');
     } else {
       navigate('/');
     }
@@ -79,7 +79,6 @@ const Login = () => {
       const idTokenResult = await user.getIdTokenResult();
       try {
         dispatch(createCustomer(idTokenResult.token));
-        dispatch(getToken(idTokenResult.token));
         roleBasedRedirect(customer);
       } catch (error) {
         console.log(error);

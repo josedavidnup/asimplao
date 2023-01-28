@@ -43,7 +43,6 @@ const CompleteSignUp = () => {
 
         try {
           dispatch(createCustomer(idTokenResult.token));
-          dispatch(getToken(idTokenResult.token));
         } catch (error) {
           console.log(error);
           toast.error(error.message);

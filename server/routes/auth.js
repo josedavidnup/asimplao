@@ -20,10 +20,10 @@ router.post('/create-or-update-customer', authCheck, createOrUpdateCustomer);
 
 router.post('/current-customer', authCheck, currentCustomer);
 
-router.post('/current-admin', authCheck, adminCheck, currentCustomer);
+// router.post('/current-admin', authCheck, adminCheck, currentCustomer);
 
 router.post('/current-retailer', authCheck, retailerCheck, currentCustomer);
 
-router.post('/current-superadmin', authCheck, superAdminCheck, currentCustomer);
+// router.post('/current-superadmin', authCheck, superAdminCheck, currentCustomer);
 
 module.exports = router;

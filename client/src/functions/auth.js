@@ -24,9 +24,9 @@ export const currentCustomer = async (authtoken) => {
   );
 };
 
-export const currentAdmin = async (authtoken) => {
+export const currentRetailer = async (authtoken) => {
   return await axios.post(
-    `/current-admin`,
+    `/current-retailer`,
     {},
     {
       headers: {
