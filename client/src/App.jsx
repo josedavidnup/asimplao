@@ -14,7 +14,7 @@ import { auth } from './config/firebase';
 import { useDispatch } from 'react-redux';
 import './App.css';
 import Loader from './components/loader/Loader';
-import { getCurrentCustomer, getToken } from './redux/slices/customerSlice';
+import { getCurrentCustomer } from './redux/slices/customerSlice';
 
 const App = () => {
   const dispatch = useDispatch();
@@ -44,7 +44,6 @@ const App = () => {
         <Route path='/forgot/password' element={<ForgotPassword />} />
         <Route path='/customer/*' element={<CustomerRoute />} />
         <Route path='/retailer/*' element={<RetailerRoute />} />
-        <Route path='/loader' element={<Loader />} />
       </Routes>
       <ToastContainer pauseOnFocusLoss={false} />
     </>

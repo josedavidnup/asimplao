@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { signOut } from 'firebase/auth';
 import { Link, useNavigate } from 'react-router-dom';
@@ -21,7 +21,6 @@ import { logOutCustomer } from '../../redux/slices/customerSlice';
 
 const Header = () => {
   const { customer } = useSelector((state) => ({ ...state }));
-  // console.log(customer);
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -48,8 +47,13 @@ const Header = () => {
     },
     {
       label: (
-        <Link to={`/account`}>
-          {/* {customer?.name && `Hi, ${customer.name.split(' ')[0]}`} */}
+        <Link
+          to={
+            customer.role === 'retailer'
+              ? `retailer/account`
+              : `customer/account`
+          }
+        >
           {customer?.name
             ? `Hi, ${customer.name.split(' ')[0]}`
             : customer?.email
@@ -111,7 +115,17 @@ const Header = () => {
       icon: <FiShoppingCart />,
     },
     {
-      label: <Link to={`/account`}>Account</Link>,
+      label: (
+        <Link
+          to={
+            customer.role === 'retailer'
+              ? `retailer/account`
+              : `customer/account`
+          }
+        >
+          Account
+        </Link>
+      ),
       key: 'SubMenu',
       icon: <VscAccount />,
       children: [

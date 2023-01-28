@@ -5,14 +5,16 @@ import { currentRetailer } from '../../functions/auth';
 import RetailerAccount from '../../pages/retailer/RetailerAccount';
 import CategoryCreate from '../../pages/retailer/category/CategoryCreate';
 import LoadingToRedirect from './LoadingToRedirect';
-import Loader from '../loader/Loader';
 import CategoryUpdate from '../../pages/retailer/category/CategoryUpdate';
 import SubCategoryCreate from '../../pages/retailer/subCategory/SubCategoryCreate';
 import SubCategoryUpdate from '../../pages/retailer/subCategory/SubCategoryUpdate';
+import ProductCreate from '../../pages/retailer/product/ProductCreate';
+import { useNavigate } from 'react-router-dom';
+import Loader from '../loader/Loader';
 
 const RetailerRoute = () => {
   const { customer } = useSelector((state) => ({ ...state }));
-
+  const navigate = useNavigate();
   const [ok, setOk] = useState(false);
 
   useEffect(() => {
@@ -36,6 +38,7 @@ const RetailerRoute = () => {
       <Route path='category/:slug' element={<CategoryUpdate />} />
       <Route path='subcategory' element={<SubCategoryCreate />} />
       <Route path='subcategory/:slug' element={<SubCategoryUpdate />} />
+      <Route path='product' element={<ProductCreate />} />
     </Routes>
   ) : (
     <Loader />
