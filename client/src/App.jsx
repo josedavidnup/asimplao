@@ -25,7 +25,6 @@ const App = () => {
         const idTokenResult = await user.getIdTokenResult();
         try {
           dispatch(getCurrentCustomer(idTokenResult.token));
-          dispatch(getToken(idTokenResult.token));
         } catch (error) {
           console.log(error);
         }

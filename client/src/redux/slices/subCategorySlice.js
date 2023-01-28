@@ -76,21 +76,6 @@ export const updateASubCategory = createAsyncThunk(
   }
 );
 
-export const getASubCategory = createAsyncThunk(
-  'category/getASubCategory',
-  async (slug, { dispatch }) => {
-    try {
-      const subCategory = await getSubCategory(slug);
-      dispatch(subCategoryDetail(subCategory));
-      dispatch(getAllSubCategory());
-    } catch (error) {
-      if (error.response.status === 400) {
-        toast.error(error.response.data);
-      }
-    }
-  }
-);
-
 export const subCategorySlice = createSlice({
   name: 'subCategory',
   initialState,

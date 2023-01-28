@@ -25,10 +25,6 @@ const Login = () => {
     password: '',
   });
   const { customer } = useSelector((state) => ({ ...state }));
-  const cus = useSelector((state) => state.customer.role);
-  const { loading } = useSelector((state) => ({ ...state }));
-  console.log(cus);
-  console.log(loading);
   const provider = new GoogleAuthProvider();
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -64,7 +60,7 @@ const Login = () => {
         const { user } = result;
         const idTokenResult = await user.getIdTokenResult();
         dispatch(createCustomer(idTokenResult.token));
-        dispatch(getToken(idTokenResult.token));
+        // dispatch(getToken(idTokenResult.token));
         roleBasedRedirect(customer);
       } catch (error) {
         console.log(error);
