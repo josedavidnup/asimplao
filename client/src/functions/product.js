@@ -9,7 +9,7 @@ export const getProduct = async (slug) => {
 };
 
 export const removeProduct = async (slug, authtoken) => {
-  return await axios.delete(`/products/${slug}`, {
+  return await axios.delete(`/product/${slug}`, {
     headers: {
       authtoken,
     },
@@ -17,15 +17,15 @@ export const removeProduct = async (slug, authtoken) => {
 };
 
 export const updateProduct = async (slug, products, authtoken) => {
-  return await axios.put(`/category/${slug}`, products, {
+  return await axios.put(`/product/${slug}`, products, {
     headers: {
       authtoken,
     },
   });
 };
 
-export const createProduct = async (products, authtoken) => {
-  return await axios.post(`/category`, products, {
+export const createProduct = async (product, authtoken) => {
+  return await axios.post(`/product`, product, {
     headers: {
       authtoken,
     },
