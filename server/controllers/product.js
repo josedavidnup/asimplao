@@ -25,7 +25,7 @@ exports.create = async (req, res) => {
 
 exports.list = async (req, res) => {
   try {
-    const productList = await Product.find({});
+    const productList = await Product.find({}).populate('category');
     res.json(productList);
   } catch (error) {
     console.log(error.message);

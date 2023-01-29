@@ -21,15 +21,12 @@ export const createNewProduct = createAsyncThunk(
       await createProduct(productValues, token);
       toast.success(`${productValues.title} is created`);
       // window.alert(`${productValues.title} is created`);
-      // window.location.reload();
+      window.location.reload();
       // dispatch(getAllProducts());
     } catch (error) {
-      // if (error.response.status === 400) toast.error(error.response.data);
-
       toast.error(error.response.data.error);
       dispatch(setLoading(false));
     }
-    toast.error(error.response.data);
     dispatch(setLoading(false));
   }
 );

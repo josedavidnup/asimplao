@@ -3,6 +3,7 @@ import RetailerNav from '../../../components/nav/RetailerNav';
 import { useDispatch, useSelector } from 'react-redux';
 import { createNewProduct } from '../../../redux/slices/productSlice';
 import ProductCreateForm from '../../../components/forms/ProductCreateForm';
+import { getCategories } from '../../../functions/category';
 
 const initialState = {
   title: '',
@@ -30,6 +31,7 @@ const ProductCreate = () => {
       ...productValues,
       [e.target.name]: e.target.value,
     });
+    console.log(productValues.category);
   };
   const handleOnSubmit = (e) => {
     e.preventDefault();
@@ -55,6 +57,12 @@ const ProductCreate = () => {
       brand: '',
     });
   };
+
+  useEffect(() => {
+    getCategories().then((res) =>
+      setProductValues({ ...productValues, categories: res.data })
+    );
+  }, []);
 
   return (
     <div className='container-fluid'>
