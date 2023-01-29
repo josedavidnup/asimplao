@@ -4,6 +4,10 @@ const ProductCreateForm = ({
   handleOnChange,
   handleOnSubmit,
   productValues,
+  handleCategoryChange,
+  subCategoriesOptions,
+  showSubCategories,
+  setProductValues,
 }) => {
   const {
     title,
@@ -11,7 +15,7 @@ const ProductCreateForm = ({
     price,
     categories,
     category,
-    subCaegory,
+    subCategory,
     shipping,
     quantity,
     images,
@@ -57,7 +61,7 @@ const ProductCreateForm = ({
         <select
           name='category'
           className='form-control'
-          onChange={handleOnChange}
+          onChange={handleCategoryChange}
         >
           <option>Please select category</option>
           {categories.length > 0 &&
@@ -68,16 +72,30 @@ const ProductCreateForm = ({
             ))}
         </select>
       </div>
-      {/* <div className='form-group'>
-              <label>Sub Category</label>
-              <input
-                type='text'
-                name='subCaegory'
-                className='form-control'
-                value={subCaegory}
-                onChange={handleOnChange}
-              />
-            </div> */}
+      {showSubCategories && (
+        <div className='form-group'>
+          <label className='block text-left' style={{ maxWidth: '300px' }}>
+            Sub Categories
+          </label>
+          <select
+            name='subCategory'
+            className='form-multiselect block w-full mt-1'
+            onChange={(e) =>
+              setProductValues({
+                ...productValues,
+                subCategory: [...productValues.subCategory, e.target.value],
+              })
+            }
+            multiple
+          >
+            {subCategoriesOptions?.map((c) => (
+              <option key={c._id} value={c._id}>
+                {c.name}
+              </option>
+            ))}
+          </select>
+        </div>
+      )}
       <div className='form-group'>
         <label>Shipping</label>
         <select

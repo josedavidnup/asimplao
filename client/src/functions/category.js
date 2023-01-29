@@ -31,3 +31,7 @@ export const createCategory = async (category, authtoken) => {
     },
   });
 };
+
+export const getSubCategories = async (_id) => {
+  return await axios.get(`/category/subcategory/${_id}`);
+};

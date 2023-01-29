@@ -11,6 +11,7 @@ const {
   read,
   update,
   remove,
+  listSubCategories,
 } = require('../controllers/category');
 
 //routes
@@ -19,5 +20,6 @@ router.get('/categories', list);
 router.get('/category/:slug', read);
 router.put('/category/:slug', authCheck, retailerCheck, update);
 router.delete('/category/:slug', authCheck, retailerCheck, remove);
+router.get('/category/subcategory/:_id', listSubCategories);
 
 module.exports = router;
