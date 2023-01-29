@@ -8,10 +8,27 @@ exports.create = async (req, res) => {
     const newProduct = await new Product(req.body).save();
     res.json(newProduct);
   } catch (error) {
-    console.log(error);
+    console.log(error.code);
     // res.status(400).send('Create category failed');
-    res.json({
-      error: error.message,
-    });
+    if (error.code) {
+      // run some code here //
+      res.status(409).json({
+        error: 'Product is already created, Try again!',
+      });
+    } else {
+      res.status(400).json({
+        error: error.message,
+      });
+    }
+  }
+};
+
+exports.list = async (req, res) => {
+  try {
+    const productList = await Product.find({});
+    res.json(productList);
+  } catch (error) {
+    console.log(error.message);
+    res.status(400).send('List product failed');
   }
 };

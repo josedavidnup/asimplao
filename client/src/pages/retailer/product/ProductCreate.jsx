@@ -48,7 +48,6 @@ const ProductCreate = () => {
       ...productValues,
       [e.target.name]: e.target.value,
     });
-    console.log(e.target.name, '--------', e.target.value);
   };
   const handleOnSubmit = (e) => {
     e.preventDefault();
