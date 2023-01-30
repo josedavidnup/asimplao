@@ -171,12 +171,12 @@ const Header = ({ handleThemeSwitch, theme }) => {
 
   return (
     <>
-      {/* <Menu
+      <Menu
         className='header bg-green-800 '
         mode='horizontal'
         defaultSelectedKeys={[window.location.pathname]}
         items={!customer?.email ? logOut : account}
-      /> */}
+      />
       <header className='bg-green-800 text-white dark:bg-slate-900 dark:text-gray-100 duration-100 flex justify-around items-center'>
         <figure className='w-20'>
           <img src={logo} alt='asimplao-logo' />
