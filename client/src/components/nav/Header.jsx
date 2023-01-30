@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { signOut } from 'firebase/auth';
 import { Link, useNavigate } from 'react-router-dom';
 import { auth } from '../../config/firebase';
+import { useTranslation } from 'react-i18next';
 import { Menu } from 'antd';
 import { VscAccount } from 'react-icons/vsc';
 import { FiShoppingCart } from 'react-icons/fi';
@@ -17,14 +18,18 @@ import {
   MdLogin,
   MdOutlineFavorite,
   MdResetTv,
-  MdOutlineLightMode,
-  MdOutlineNightlight,
+  MdLightMode,
+  MdNightlight,
 } from 'react-icons/md';
+import spanish from '../../assets/images/spanish.png';
+import english from '../../assets/images/english.png';
 import { logOutCustomer } from '../../redux/slices/customerSlice';
 
 const Header = ({ handleThemeSwitch, theme }) => {
+  const [t, i18n] = useTranslation('global');
   const { customer } = useSelector((state) => ({ ...state }));
   const [dropdown, setDropdown] = useState(false);
+  const [lan, setLan] = useState('');
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -32,6 +37,13 @@ const Header = ({ handleThemeSwitch, theme }) => {
     signOut(auth);
     dispatch(logOutCustomer());
     navigate('/login');
+  };
+
+  const handleLanguageSwitch = () => {
+    console.log(lan);
+    lan === 'en-US'
+      ? i18n.changeLanguage('es') && setLan('es-ES')
+      : i18n.changeLanguage('en') && setLan('en-US');
   };
 
   const account = [
@@ -153,6 +165,10 @@ const Header = ({ handleThemeSwitch, theme }) => {
     },
   ];
 
+  useEffect(() => {
+    setLan(navigator.language || navigator.userLanguage);
+  }, []);
+
   return (
     <>
       {/* <Menu
@@ -165,55 +181,65 @@ const Header = ({ handleThemeSwitch, theme }) => {
         <figure className='w-20'>
           <img src={logo} alt='asimplao-logo' />
         </figure>
-        <nav>
-          <ul className='flex space-x-5'>
-            <li className='flex space-x-5'>
-              <AiOutlineHome />
-              Home
-            </li>
-            <li>
-              <MdOutlineFavorite />
-            </li>
-            <li>
-              <FiShoppingCart />
-            </li>
-            <li
-              className='flex space-x-5 relative'
-              onClick={() => setDropdown(!dropdown)}
-            >
-              <Link
-                to={
-                  customer.role === 'retailer'
-                    ? `retailer/account`
-                    : `customer/account`
-                }
-                className='flex space-x-5'
-              >
-                <VscAccount />
-                {customer?.name
-                  ? `Hi, ${customer.name.split(' ')[0]}`
-                  : customer?.email
-                  ? `Hi, ${customer.email.split('@')[0]}`
-                  : `Hi`}
-              </Link>
-              {dropdown && (
-                <div className='absolute float-left border bg-slate-200 dark:bg-stone-800'>
-                  <button>hola</button>hola2<button>hola3</button>
-                  <button>hola4</button>
-                </div>
+        <div>
+          <div className='flex justify-end gap-2'>
+            <button onClick={handleLanguageSwitch}>
+              {lan === 'en-US' ? (
+                <img src={spanish} alt='spanish' className=' w-6 h-6' />
+              ) : (
+                <img src={english} alt='english' className=' w-6 h-6' />
               )}
-            </li>
-            <li>
-              <button onClick={handleThemeSwitch}>
-                {theme === 'dark' ? (
-                  <MdOutlineLightMode className='fill-orange-500' />
-                ) : (
-                  <MdOutlineNightlight />
+            </button>
+            <button onClick={handleThemeSwitch}>
+              {theme === 'dark' ? (
+                <MdLightMode className='fill-orange-500 w-6 h-6' />
+              ) : (
+                <MdNightlight className='fill-slate-800 w-6 h-6' />
+              )}
+            </button>
+          </div>
+          <nav>
+            <ul className='flex space-x-5'>
+              <li className='flex space-x-5'>
+                <AiOutlineHome />
+                {t('header.home')}
+              </li>
+              <li>
+                <MdOutlineFavorite />
+              </li>
+              <li>
+                <FiShoppingCart />
+              </li>
+              <li
+                className='flex space-x-5 relative'
+                onClick={() => setDropdown(!dropdown)}
+              >
+                <Link
+                  to={
+                    customer.role === 'retailer'
+                      ? `retailer/account`
+                      : `customer/account`
+                  }
+                  className='flex space-x-5'
+                >
+                  <VscAccount />
+                  {customer?.name
+                    ? `${t('header.hi')}, ${customer.name.split(' ')[0]}`
+                    : customer?.email
+                    ? `${t('header.hi')}, ${customer.email.split('@')[0]}`
+                    : `${t('header.hi')}`}
+                </Link>
+                {dropdown && (
+                  <div className='absolute float-left border bg-slate-200 dark:bg-stone-800 '>
+                    <button>{t('header.account')}</button>
+                    <button>hola3</button>
+                    <button>hola4</button>
+                  </div>
                 )}
-              </button>
-            </li>
-          </ul>
-        </nav>
+              </li>
+            </ul>
+          </nav>
+        </div>
       </header>
     </>
   );

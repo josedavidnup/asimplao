@@ -5,6 +5,7 @@ import { onAuthStateChanged } from 'firebase/auth';
 import Login from './pages/auth/Login';
 import Register from './pages/auth/Register';
 import Home from './pages/Home';
+import { useTranslation } from 'react-i18next';
 import CompleteSignUp from './pages/auth/CompleteSignUp';
 import ForgotPassword from './pages/auth/ForgotPassword';
 import Header from './components/nav/Header';
@@ -12,9 +13,8 @@ import CustomerRoute from './components/routes/CustomerRoute';
 import RetailerRoute from './components/routes/RetailerRoute';
 import { auth } from './config/firebase';
 import { useDispatch } from 'react-redux';
-import './App.css';
-import Loader from './components/loader/Loader';
 import { getCurrentCustomer } from './redux/slices/customerSlice';
+import './App.css';
 
 const App = () => {
   const dispatch = useDispatch();
@@ -22,6 +22,7 @@ const App = () => {
   const handleThemeSwitch = () => {
     setTheme(theme === 'dark' ? 'light' : 'dark');
   };
+  const [t, i18n] = useTranslation('global');
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
@@ -52,6 +53,12 @@ const App = () => {
       document.documentElement.classList.remove('dark');
     }
   }, [theme]);
+
+  useEffect(() => {
+    navigator.language || navigator.userLanguage === 'en-US'
+      ? i18n.changeLanguage('en')
+      : i18n.changeLanguage('es');
+  }, []);
 
   return (
     <>
