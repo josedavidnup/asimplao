@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import { onAuthStateChanged } from 'firebase/auth';
@@ -18,6 +18,10 @@ import { getCurrentCustomer } from './redux/slices/customerSlice';
 
 const App = () => {
   const dispatch = useDispatch();
+  const [theme, setTheme] = useState(null);
+  const handleThemeSwitch = () => {
+    setTheme(theme === 'dark' ? 'light' : 'dark');
+  };
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
@@ -33,9 +37,25 @@ const App = () => {
     return () => unsubscribe();
   }, [dispatch]);
 
+  useEffect(() => {
+    if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+      setTheme('dark');
+    } else {
+      setTheme('light');
+    }
+  }, []);
+
+  useEffect(() => {
+    if (theme === 'dark') {
+      document.documentElement.classList.add('dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+    }
+  }, [theme]);
+
   return (
     <>
-      <Header />
+      <Header handleThemeSwitch={handleThemeSwitch} theme={theme} />
       <Routes>
         <Route path='/' element={<Home />} />
         <Route path='/login' element={<Login />} />

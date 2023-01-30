@@ -86,7 +86,6 @@ const ProductCreateForm = ({
                 subCategory: [...productValues.subCategory, e.target.value],
               })
             }
-            multiple
           >
             {subCategoriesOptions?.map((c) => (
               <option key={c._id} value={c._id}>
