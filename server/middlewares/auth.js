@@ -33,7 +33,7 @@ exports.retailerCheck = async (req, res, next) => {
 // exports.adminCheck = async (req, res, next) => {
 //   const { email } = req.customer;
 
-//   const adminAuth = await Customer.findOne({ email }).exec();
+//   const adminAuth = await Admin.findOne({ email }).exec();
 
 //   if (adminAuth.role !== 'admin') {
 //     res.status(403).json({

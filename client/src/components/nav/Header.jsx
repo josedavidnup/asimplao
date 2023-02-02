@@ -20,10 +20,12 @@ import {
   MdResetTv,
   MdLightMode,
   MdNightlight,
+  MdOutlineSearch,
 } from 'react-icons/md';
 import spanish from '../../assets/images/spanish.png';
 import english from '../../assets/images/english.png';
 import { logOutCustomer } from '../../redux/slices/customerSlice';
+import DropDownMenu from './DropDownMenu';
 
 const Header = ({ handleThemeSwitch, theme }) => {
   const [t, i18n] = useTranslation('global');
@@ -40,10 +42,13 @@ const Header = ({ handleThemeSwitch, theme }) => {
   };
 
   const handleLanguageSwitch = () => {
-    console.log(lan);
     lan === 'en-US'
       ? i18n.changeLanguage('es') && setLan('es-ES')
       : i18n.changeLanguage('en') && setLan('en-US');
+  };
+
+  const handleOnSubmit = (e) => {
+    e.preventDefault();
   };
 
   const account = [
@@ -177,11 +182,22 @@ const Header = ({ handleThemeSwitch, theme }) => {
         defaultSelectedKeys={[window.location.pathname]}
         items={!customer?.email ? logOut : account}
       />
-      <header className='bg-green-800 text-white dark:bg-slate-900 dark:text-gray-100 duration-100 flex justify-around items-center'>
-        <figure className='w-20'>
-          <img src={logo} alt='asimplao-logo' />
+      <header className='bg-green-800 text-white pb-2 dark:bg-slate-900 dark:text-gray-100 duration-100 flex flex-col md:flex-row justify-around'>
+        <figure className='w-20 inline'>
+          <Link to={'/'}>
+            <img src={logo} alt='asimplao-logo' />
+          </Link>
         </figure>
-        <div>
+        <form
+          onSubmit={handleOnSubmit}
+          className='order-3 md:order-none bg-slate-200 h-8 flex self-center items-center rounded-lg'
+        >
+          <input type='text' className='bg-slate-200' />
+          <button type='submit'>
+            <MdOutlineSearch className='fill-slate-800' />
+          </button>
+        </form>
+        <div className='flex flex-col justify-around'>
           <div className='flex justify-end gap-2'>
             <button onClick={handleLanguageSwitch}>
               {lan === 'en-US' ? (
@@ -198,43 +214,53 @@ const Header = ({ handleThemeSwitch, theme }) => {
               )}
             </button>
           </div>
-          <nav>
-            <ul className='flex space-x-5'>
-              <li className='flex space-x-5'>
-                <AiOutlineHome />
-                {t('header.home')}
+          <nav className='flex justify-end'>
+            <ul className='flex space-x-7 items-center'>
+              <li className='flex xs:hidden md:block '>
+                <Link to={'/'} className='flex flex-row space-x-1 items-center'>
+                  <AiOutlineHome />
+                  <span>{t('header.home')}</span>
+                </Link>
+              </li>
+              <li className='xs:hidden md:block'>
+                <MdOutlineFavorite className='md:cursor-pointer' />
               </li>
               <li>
-                <MdOutlineFavorite />
-              </li>
-              <li>
-                <FiShoppingCart />
+                <FiShoppingCart className='md:cursor-pointer' />
               </li>
               <li
-                className='flex space-x-5 relative'
-                onClick={() => setDropdown(!dropdown)}
+                className='relative flex space-x-5 flex-col'
+                onPointerEnter={() => setDropdown(!dropdown)}
               >
                 <Link
                   to={
                     customer.role === 'retailer'
                       ? `retailer/account`
-                      : `customer/account`
+                        ? customer.role === 'customer'
+                        : `customer/account`
+                      : `/`
                   }
-                  className='flex space-x-5'
+                  className='flex flex-row space-x-1 items-center'
                 >
                   <VscAccount />
-                  {customer?.name
-                    ? `${t('header.hi')}, ${customer.name.split(' ')[0]}`
-                    : customer?.email
-                    ? `${t('header.hi')}, ${customer.email.split('@')[0]}`
-                    : `${t('header.hi')}`}
+                  {customer?.name ? (
+                    <span className='xs:hidden md:block'>
+                      {t('header.hi')}, {customer.name.split(' ')[0]}
+                    </span>
+                  ) : customer?.email ? (
+                    <span className='xs:hidden md:block'>
+                      `${t('header.hi')}, ${customer.email.split('@')[0]}`
+                    </span>
+                  ) : (
+                    `Sign in`
+                  )}
                 </Link>
                 {dropdown && (
-                  <div className='absolute float-left border bg-slate-200 dark:bg-stone-800 '>
-                    <button>{t('header.account')}</button>
-                    <button>hola3</button>
-                    <button>hola4</button>
-                  </div>
+                  <DropDownMenu
+                    dropdown={dropdown}
+                    customer={customer}
+                    signout={signout}
+                  />
                 )}
               </li>
             </ul>
