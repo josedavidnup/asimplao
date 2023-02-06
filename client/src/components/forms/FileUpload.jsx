@@ -41,11 +41,11 @@ const FileUpload = ({ productValues, setProductValues }) => {
     }
   };
 
-  const handleImageRemove = (publid_id) => {
+  const handleImageRemove = (public_id) => {
     axios
       .post(
         `/removeimages`,
-        { publid_id },
+        { public_id },
         {
           headers: {
             authtoken: customer ? customer.token : "",
@@ -55,7 +55,7 @@ const FileUpload = ({ productValues, setProductValues }) => {
       .then((res) => {
         const { images } = productValues;
         let filteredImages = images.filter((item) => {
-          return item.public_id !== publid_id;
+          return item.public_id !== public_id;
         });
         setProductValues({ ...productValues, images: filteredImages });
       })
