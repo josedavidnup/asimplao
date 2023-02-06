@@ -1,24 +1,25 @@
-import React, { useEffect, useState } from 'react';
-import RetailerNav from '../../../components/nav/RetailerNav';
-import { useDispatch, useSelector } from 'react-redux';
-import { createNewProduct } from '../../../redux/slices/productSlice';
-import ProductCreateForm from '../../../components/forms/ProductCreateForm';
-import { getCategories, getSubCategories } from '../../../functions/category';
+import React, { useEffect, useState } from "react";
+import RetailerNav from "../../../components/nav/RetailerNav";
+import { useDispatch, useSelector } from "react-redux";
+import { createNewProduct } from "../../../redux/slices/productSlice";
+import ProductCreateForm from "../../../components/forms/ProductCreateForm";
+import { getCategories, getSubCategories } from "../../../functions/category";
+import FileUpload from "../../../components/forms/FileUpload";
 
 const initialState = {
-  title: '',
-  description: '',
-  price: '',
+  title: "",
+  description: "",
+  price: "",
   categories: [],
-  category: '',
+  category: "",
   subCategory: [],
-  shipping: '',
-  quantity: '',
+  shipping: "",
+  quantity: "",
   images: [],
-  colors: ['Black', 'Brown', 'Silver', 'White', 'Blue'],
-  brands: ['Apple', 'Samsung', 'Microsoft', 'Lenovo', 'ASUS'],
-  color: '',
-  brand: '',
+  colors: ["Black", "Brown", "Silver", "White", "Blue"],
+  brands: ["Apple", "Samsung", "Microsoft", "Lenovo", "ASUS"],
+  color: "",
+  brand: "",
 };
 
 const ProductCreate = () => {
@@ -37,7 +38,7 @@ const ProductCreate = () => {
 
   const handleCategoryChange = (e) => {
     e.preventDefault();
-    console.log('Clicked Category: ' + e.target.value);
+    console.log("Clicked Category: " + e.target.value);
     setProductValues({
       ...productValues,
       subCategory: [],
@@ -65,19 +66,19 @@ const ProductCreate = () => {
     dispatch(createNewProduct(data));
     setProductValues({
       ...productValues,
-      title: '',
-      description: '',
-      price: '',
+      title: "",
+      description: "",
+      price: "",
       categories: [],
-      category: '',
+      category: "",
       subCaegory: [],
-      shipping: '',
-      quantity: '',
+      shipping: "",
+      quantity: "",
       images: [],
-      colors: ['Black', 'Brown', 'Silver', 'White', 'Blue'],
-      brands: ['Apple', 'Samsung', 'Microsoft', 'Lenovo', 'ASUS'],
-      color: '',
-      brand: '',
+      colors: ["Black", "Brown", "Silver", "White", "Blue"],
+      brands: ["Apple", "Samsung", "Microsoft", "Lenovo", "ASUS"],
+      color: "",
+      brand: "",
     });
   };
 
@@ -88,13 +89,19 @@ const ProductCreate = () => {
   }, []);
 
   return (
-    <div className='container-fluid'>
-      <div className='row'>
-        <div className='col-md-2'>
+    <div className="container-fluid">
+      <div className="row">
+        <div className="col-md-2">
           <RetailerNav />
         </div>
-        <div className='col-md-10'>
+        <div className="col-md-10">
           <h4>Product create</h4>
+          <div className="p-3">
+            <FileUpload
+              productValues={productValues}
+              setProductValues={setProductValues}
+            />
+          </div>
           <ProductCreateForm
             handleOnSubmit={handleOnSubmit}
             handleOnChange={handleOnChange}

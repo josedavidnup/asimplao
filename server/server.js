@@ -1,29 +1,29 @@
-const express = require('express');
-const mongoose = require('mongoose');
-const morgan = require('morgan');
-const cors = require('cors');
-const { readdirSync } = require('fs');
-const path = require('path');
-require('dotenv').config();
+const express = require("express");
+const mongoose = require("mongoose");
+const morgan = require("morgan");
+const cors = require("cors");
+const { readdirSync } = require("fs");
+const path = require("path");
+require("dotenv").config();
 
 // app
 const app = express();
 
 //db connection
-mongoose.set('strictQuery', false);
+mongoose.set("strictQuery", false);
 mongoose
   .connect(process.env.MONGO_URI)
-  .then(() => console.log('DB CONNECTED'))
-  .catch((err) => console.log('DB CONNECTION ERR', err));
+  .then(() => console.log("DB CONNECTED"))
+  .catch((err) => console.log("DB CONNECTION ERR", err));
 
 //middlewares
-app.use(morgan('dev'));
-app.use(express.json());
+app.use(morgan("dev"));
+app.use(express.json({ limit: "5mb" }));
 app.use(cors());
 
 // Routes middleware
-readdirSync(path.join(__dirname, './routes')).map((r) =>
-  app.use('/api', require('./routes/' + r))
+readdirSync(path.join(__dirname, "./routes")).map((r) =>
+  app.use("/api", require("./routes/" + r))
 );
 
 // port

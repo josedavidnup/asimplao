@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 const { ObjectId } = mongoose.Schema;
 
 const productSchema = new mongoose.Schema(
@@ -31,13 +31,13 @@ const productSchema = new mongoose.Schema(
     },
     category: {
       type: ObjectId,
-      ref: 'Category',
+      ref: "Category",
       required: true,
     },
     subCategory: [
       {
         type: ObjectId,
-        ref: 'Subcategory',
+        ref: "Subcategory",
       },
     ],
     quantity: Number,
@@ -45,20 +45,20 @@ const productSchema = new mongoose.Schema(
       type: Number,
       default: 0,
     },
-    // images: {
-    //   type: Array,
-    // },
+    images: {
+      type: Array,
+    },
     shipping: {
       type: String,
-      enum: ['Yes', 'No'],
+      enum: ["Yes", "No"],
     },
     color: {
       type: String,
-      enum: ['Black', 'Brown', 'Silver', 'White', 'Blue'],
+      enum: ["Black", "Brown", "Silver", "White", "Blue"],
     },
     brand: {
       type: String,
-      enum: ['Apple', 'Samsung', 'Microsoft', 'Lenovo', 'ASUS'],
+      enum: ["Apple", "Samsung", "Microsoft", "Lenovo", "ASUS"],
     },
     // rating: [
     //   {
@@ -75,4 +75,4 @@ const productSchema = new mongoose.Schema(
   }
 );
 
-module.exports = mongoose.model('Product', productSchema);
+module.exports = mongoose.model("Product", productSchema);
