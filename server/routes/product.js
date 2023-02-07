@@ -1,21 +1,21 @@
-const { Router } = require('express');
+const { Router } = require("express");
 const router = Router();
 
 // middlewares
-const { authCheck, retailerCheck } = require('../middlewares/auth');
+const { authCheck, retailerCheck } = require("../middlewares/auth");
 
 //controllers
 const {
   create,
-  list,
+  listAll,
   read,
   update,
   remove,
-} = require('../controllers/product');
+} = require("../controllers/product");
 
 //routes
-router.post('/product', authCheck, retailerCheck, create);
-router.get('/products', list);
+router.post("/product", authCheck, retailerCheck, create);
+router.get("/products/:count", listAll);
 // router.get('/product/:slug', read);
 // router.put('/product/:slug', authCheck, retailerCheck, update);
 // router.delete('/product/:slug', authCheck, retailerCheck, remove);

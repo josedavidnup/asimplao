@@ -173,7 +173,6 @@ const Header = ({ handleThemeSwitch, theme }) => {
   useEffect(() => {
     setLan(navigator.language || navigator.userLanguage);
   }, []);
-
   return (
     <>
       <Menu
