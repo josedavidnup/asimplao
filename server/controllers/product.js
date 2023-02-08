@@ -9,9 +9,8 @@ exports.create = async (req, res) => {
     res.json(newProduct);
   } catch (error) {
     console.log(error.code);
-    // res.status(400).send('Create category failed');
+    res.status(400).send("Create category failed");
     if (error.code) {
-      // run some code here //
       res.status(409).json({
         error: "Product is already created, Try again!",
       });

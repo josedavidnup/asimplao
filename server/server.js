@@ -21,7 +21,7 @@ app.use(morgan("dev"));
 app.use(express.json({ limit: "5mb" }));
 app.use(cors());
 
-// Routes middleware
+//Routes middlewares
 readdirSync(path.join(__dirname, "./routes")).map((r) =>
   app.use("/api", require("./routes/" + r))
 );
