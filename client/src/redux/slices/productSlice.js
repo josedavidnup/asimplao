@@ -1,19 +1,18 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import {
   createProduct,
-  getProducts,
   removeProduct,
   updateProduct,
   getProduct,
-} from '../../functions/product';
-import { setLoading } from './loadingSlice';
-import { toast } from 'react-toastify';
+} from "../../functions/product";
+import { setLoading } from "./loadingSlice";
+import { toast } from "react-toastify";
 const initialState = {
   productList: [],
 };
 
 export const createNewProduct = createAsyncThunk(
-  'product/createNewProduct',
+  "product/createNewProduct",
   async (data, { dispatch }) => {
     const { productValues, token } = data;
     dispatch(setLoading(true));
@@ -31,22 +30,10 @@ export const createNewProduct = createAsyncThunk(
   }
 );
 
-export const getAllProducts = createAsyncThunk(
-  'product/getAllProduct',
-  async (_, { dispatch }) => {
-    dispatch(setLoading(true));
-    try {
-      const products = await getProducts();
-      dispatch(allProducts(products));
-    } catch (error) {
-      toast.error(error.response.data);
-    }
-    dispatch(setLoading(false));
-  }
-);
+// s
 
 export const deleteAProduct = createAsyncThunk(
-  'product/deleteAProduct',
+  "product/deleteAProduct",
   async (data, { dispatch }) => {
     const { slug, token } = data;
     dispatch(setLoading(true));
@@ -64,7 +51,7 @@ export const deleteAProduct = createAsyncThunk(
 );
 
 export const updateAProduct = createAsyncThunk(
-  'product/updateAProduct',
+  "product/updateAProduct",
   async (data, { dispatch }) => {
     const { slug, name, token } = data;
     try {
@@ -81,7 +68,7 @@ export const updateAProduct = createAsyncThunk(
 );
 
 export const getAProduct = createAsyncThunk(
-  'product/getAProduct',
+  "product/getAProduct",
   async (slug, { dispatch }) => {
     try {
       await getProduct(slug);
@@ -95,7 +82,7 @@ export const getAProduct = createAsyncThunk(
 );
 
 export const productSlice = createSlice({
-  name: 'product',
+  name: "product",
   initialState,
   reducers: {
     allProducts: (state, action) => {
