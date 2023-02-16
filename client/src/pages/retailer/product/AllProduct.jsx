@@ -24,7 +24,7 @@ const AllProduct = () => {
         </div>
         <div className="col">
           <h4>All Products</h4>
-          <div className="col">
+          <div className="row">
             {products.length > 0 &&
               products.map((product) => (
                 <RetailerProductCard product={product} key={product._id} />
